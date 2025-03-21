@@ -1,9 +1,10 @@
 package convention.plugin
 
-import convention.ext.libs
+import Modules
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
 
 class AndroidDataConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -13,8 +14,7 @@ class AndroidDataConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "implementation"(libs.findLibrary("retrofit").get())
-                "implementation"(libs.findLibrary("retrofit-converter-gson").get())
+                "implementation"(project(Modules.Core.network))
             }
         }
     }
