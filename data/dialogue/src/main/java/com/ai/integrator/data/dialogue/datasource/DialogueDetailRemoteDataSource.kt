@@ -5,6 +5,7 @@ import com.ai.integrator.core.framework.log.Log
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyReq
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyResp
+import com.ai.integrator.network.HttpServiceManager
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -13,17 +14,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.stream.consumeAsFlow
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Streaming
 
 private interface DialogueDetailServiceApi {
-    @Headers(
-        "Content-Type: application/json"
-    )
     @POST("chat/completions")
     @Streaming
     suspend fun reqDialogueReply(
@@ -33,11 +28,7 @@ private interface DialogueDetailServiceApi {
 
 class DialogueDetailRemoteDataSource {
     private val serviceApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(DialogueDetailServiceApi::class.java)
+        HttpServiceManager.getServiceApi(DialogueDetailServiceApi::class.java)
     }
 
     private val gson by lazy {
@@ -78,8 +69,6 @@ class DialogueDetailRemoteDataSource {
 
     companion object {
         private const val TAG = "DialogueDetailRemoteDataSource"
-
-        private const val BASE_URL = "https://api.siliconflow.cn/v1/"
 
         private const val ERROR_CODE_PARSE_JSON = 1000
     }
