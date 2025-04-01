@@ -1,25 +1,29 @@
 package com.ai.integrator.network
 
-import com.ai.integrator.network.interceptor.HeaderInterceptor
+import com.ai.integrator.network.interceptor.HttpHeaderInterceptor
+import com.ai.integrator.network.interceptor.HttpLogInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object HttpServiceManager {
+    private const val TAG = "HttpServiceManager"
+
     private const val BASE_URL = "https://api.siliconflow.cn/v1/"
 
-    private val httpClient by lazy {
-        OkHttpClient.Builder()
-            .addInterceptor(HeaderInterceptor())
-            .build()
-    }
-
-    fun <T> getServiceApi(apiCls: Class<T>): T {
+    fun <T> getServiceApi(apiCls: Class<T>, tag: String = TAG): T {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(httpClient)
+            .client(buildHttpClient(tag))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(apiCls)
+    }
+
+    private fun buildHttpClient(tag: String): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpHeaderInterceptor())
+            .addInterceptor(HttpLogInterceptor(tag))
+            .build()
     }
 }

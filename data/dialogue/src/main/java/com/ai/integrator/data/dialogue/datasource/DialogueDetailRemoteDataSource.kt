@@ -28,7 +28,7 @@ private interface DialogueDetailServiceApi {
 
 class DialogueDetailRemoteDataSource {
     private val serviceApi by lazy {
-        HttpServiceManager.getServiceApi(DialogueDetailServiceApi::class.java)
+        HttpServiceManager.getServiceApi(DialogueDetailServiceApi::class.java, TAG)
     }
 
     private val gson by lazy {
@@ -44,8 +44,6 @@ class DialogueDetailRemoteDataSource {
             messages = messages
         )
         val res = serviceApi.reqDialogueReply(reqBody)
-        Log.d(TAG, "reqDialogueReply code: ${res.code()}, message: ${res.message()}")
-
         val body = res.body()
         if (!res.isSuccessful || body == null) {
             return flowOf(ResultOrIntError.Failure(res.code(), res.message()))
@@ -53,9 +51,9 @@ class DialogueDetailRemoteDataSource {
 
         return body.byteStream().bufferedReader().lines().consumeAsFlow()
             .filter { it.isNotEmpty() }
-            .map { it.removePrefix("data: ").trim() }
+            .map { it.removePrefix(STREAM_DATA_PREFIX).trim() }
             .map {
-                if (it == "[DONE]") return@map ResultOrIntError.Success("")
+                if (it == STREAM_DATA_DONE_FLAG) return@map ResultOrIntError.Success("")
 
                 try {
                     val content = gson.fromJson(it, DialogueReplyResp::class.java).choices[0].delta.content
@@ -69,6 +67,9 @@ class DialogueDetailRemoteDataSource {
 
     companion object {
         private const val TAG = "DialogueDetailRemoteDataSource"
+
+        private const val STREAM_DATA_PREFIX = "data: "
+        private const val STREAM_DATA_DONE_FLAG = "[DONE]"
 
         private const val ERROR_CODE_PARSE_JSON = 1000
     }
