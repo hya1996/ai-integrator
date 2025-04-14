@@ -19,7 +19,7 @@ object AppExecutor {
     val backgroundExecutor by lazy {
         val poolSize = max(DeviceUtils.cpuCoreCount + 2, 4)
         ThreadPoolExecutor(poolSize, poolSize, 10L, TimeUnit.SECONDS, LinkedBlockingQueue(),
-            AppDefaultThreadFactory("app-background_thread", 3)
+            AppDefaultThreadFactory("app-background-thread", 3)
         ).apply {
             allowCoreThreadTimeOut(true)
         }

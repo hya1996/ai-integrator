@@ -1,6 +1,7 @@
 package com.ai.integrator.data.dialogue.datasource
 
 import com.ai.integrator.core.framework.common.ResultOrIntError
+import com.ai.integrator.core.framework.coroutine.dispatcher.AppDispatcher
 import com.ai.integrator.core.framework.log.Log
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyReq
@@ -10,6 +11,7 @@ import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.stream.consumeAsFlow
 import okhttp3.ResponseBody
@@ -63,6 +65,7 @@ class DialogueDetailRemoteDataSource {
                     ResultOrIntError.Failure(ERROR_CODE_PARSE_JSON, e.message ?: "")
                 }
             }
+            .flowOn(AppDispatcher.Network)
     }
 
     companion object {

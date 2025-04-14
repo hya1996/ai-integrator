@@ -10,7 +10,6 @@ import com.ai.integrator.data.dialogue.model.DIALOGUE_ROLE_USER
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueModelInfo
 import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,7 +38,7 @@ class DialogueDetailViewModel : BaseViewModel() {
         _inputContent.value = content
     }
 
-    fun sendDialogueMessage() = viewModelScope.launch(Dispatchers.IO) {
+    fun sendDialogueMessage() = viewModelScope.launch {
         val modelInfo = modelInfo ?: return@launch
         val message = DialogueMessage(
             role = DIALOGUE_ROLE_USER,
