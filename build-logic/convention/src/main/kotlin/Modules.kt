@@ -3,6 +3,7 @@ object Modules {
         val framework = core("framework")
         val network = core("network")
         val ui = core("ui")
+        val im = core("im")
     }
 
     object Feature {
