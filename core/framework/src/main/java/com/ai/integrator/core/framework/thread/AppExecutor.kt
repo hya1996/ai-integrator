@@ -1,4 +1,4 @@
-package com.ai.integrator.core.framework.thread.executor
+package com.ai.integrator.core.framework.thread
 
 import com.ai.integrator.core.framework.util.DeviceUtils
 import java.util.concurrent.Executors
@@ -19,7 +19,8 @@ object AppExecutor {
     val backgroundExecutor by lazy {
         val poolSize = max(DeviceUtils.cpuCoreCount + 2, 4)
         ThreadPoolExecutor(poolSize, poolSize, 10L, TimeUnit.SECONDS, LinkedBlockingQueue(),
-            AppDefaultThreadFactory("app-background_thread", 3)).apply {
+            AppDefaultThreadFactory("app-background_thread", 3)
+        ).apply {
             allowCoreThreadTimeOut(true)
         }
     }

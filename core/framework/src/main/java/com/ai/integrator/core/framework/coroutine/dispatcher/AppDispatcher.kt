@@ -1,6 +1,6 @@
-package com.ai.integrator.core.framework.thread.dispatcher
+package com.ai.integrator.core.framework.coroutine.dispatcher
 
-import com.ai.integrator.core.framework.thread.executor.AppExecutor
+import com.ai.integrator.core.framework.thread.AppExecutor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
