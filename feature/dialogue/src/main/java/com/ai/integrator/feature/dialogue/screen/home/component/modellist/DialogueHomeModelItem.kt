@@ -31,7 +31,7 @@ data class DialogueHomeModelItemData(
 @Composable
 fun DialogueHomeModeItem(
     itemData: DialogueHomeModelItemData,
-    onClick: (DialogueModelInfo) -> Unit,
+    onClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val modelInfo = itemData.modelInfo
@@ -40,7 +40,7 @@ fun DialogueHomeModeItem(
             .height(76.dp)
             .fillMaxWidth()
             .background(colorScheme.primaryContainer)
-            .clickable { onClick(modelInfo) }
+            .clickable { onClick(modelInfo.modelId) }
             .padding(start = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

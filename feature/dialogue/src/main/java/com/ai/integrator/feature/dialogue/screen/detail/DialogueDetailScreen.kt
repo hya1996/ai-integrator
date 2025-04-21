@@ -19,20 +19,20 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ai.integrator.core.ui.ime.rememberImeVisibility
-import com.ai.integrator.data.dialogue.model.DialogueModelInfo
 import com.ai.integrator.feature.dialogue.screen.detail.component.bottombar.DialogueDetailBottomBar
 import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.DialogueDetailMessageList
 import com.ai.integrator.feature.dialogue.screen.detail.component.topbar.DialogueDetailTopBar
 
 @Composable
 fun DialogueDetailScreen(
-    modelInfo: DialogueModelInfo,
+    modelId: Long,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DialogueDetailViewModel = viewModel()
 ) {
     val localFocusManger = LocalFocusManager.current
 
+    val modelInfo by viewModel.modelInfo.collectAsStateWithLifecycle()
     val inputContent by viewModel.inputContent.collectAsStateWithLifecycle()
     val enableSend by viewModel.enableSend.collectAsStateWithLifecycle()
     val reply by viewModel.reply.collectAsStateWithLifecycle()
@@ -40,7 +40,7 @@ fun DialogueDetailScreen(
     val isImeVisible by rememberImeVisibility()
 
     LaunchedEffect(Unit) {
-        viewModel.init(modelInfo)
+        viewModel.init(modelId)
     }
 
     Column(
@@ -58,8 +58,8 @@ fun DialogueDetailScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 DialogueDetailTopBar(
-                    title = modelInfo.simpleName,
-                    subtitle = modelInfo.intro,
+                    title = modelInfo?.simpleName ?: "",
+                    subtitle = modelInfo?.intro ?: "",
                     onBackClick = onBackClick,
                 )
                 DialogueDetailMessageList(

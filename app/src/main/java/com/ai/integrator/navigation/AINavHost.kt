@@ -23,8 +23,8 @@ fun AINavHost(
         exitTransition = { ExitTransition.None },
     ) {
         dialogueNavGraph(
-            onModelItemClick = { modelInfo ->
-                navController.navigateToDialogueDetail(modelInfo)
+            onModelItemClick = { modelId ->
+                navController.navigateToDialogueDetail(modelId)
             },
             onBackClick = {
                 navController.popBackStack()

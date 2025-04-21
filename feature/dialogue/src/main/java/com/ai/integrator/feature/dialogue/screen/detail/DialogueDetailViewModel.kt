@@ -10,6 +10,7 @@ import com.ai.integrator.data.dialogue.model.DIALOGUE_ROLE_USER
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueModelInfo
 import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
+import com.ai.integrator.data.dialogue.repository.DialogueModelRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,11 +28,18 @@ class DialogueDetailViewModel : BaseViewModel() {
     private val _reply = MutableStateFlow("")
     val reply = _reply.asStateFlow()
 
-    private val dialogueDetailRepo = DialogueDetailRepository()
-    private var modelInfo: DialogueModelInfo? = null
+    private val _modelInfo = MutableStateFlow<DialogueModelInfo?>(null)
+    val modelInfo = _modelInfo.asStateFlow()
 
-    fun init(modelInfo: DialogueModelInfo) {
-        this.modelInfo = modelInfo
+    private val dialogueModelRepo  = DialogueModelRepository()
+    private val dialogueDetailRepo = DialogueDetailRepository()
+
+    fun init(modelId: Long) {
+        initModelInfo(modelId)
+    }
+
+    private fun initModelInfo(modelId: Long) = viewModelScope.launch {
+        _modelInfo.value = dialogueModelRepo.getModelById(modelId)
     }
 
     fun updateInputContent(content: String) {
@@ -39,12 +47,12 @@ class DialogueDetailViewModel : BaseViewModel() {
     }
 
     fun sendDialogueMessage() = viewModelScope.launch {
-        val modelInfo = modelInfo ?: return@launch
+        val curModelInfo = modelInfo.value ?: return@launch
         val message = DialogueMessage(
             role = DIALOGUE_ROLE_USER,
             content = _inputContent.value
         )
-        dialogueDetailRepo.reqDialogueReply(modelInfo.modelName, listOf(message)).collect {
+        dialogueDetailRepo.reqDialogueReply(curModelInfo.modelName, listOf(message)).collect {
             it.onSuccess { content ->
                 _reply.value += content
             }.onFailure { code, message ->

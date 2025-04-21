@@ -8,4 +8,6 @@ class DialogueModelRepository(
     private val dialogueModelLocalDS: DialogueModelLocalDataSource = DialogueModelLocalDataSource()
 ) {
     fun getModelList(): Flow<List<DialogueModelInfo>> = dialogueModelLocalDS.getModelList()
+
+    suspend fun getModelById(id: Long): DialogueModelInfo? = dialogueModelLocalDS.getModelById(id)
 }
