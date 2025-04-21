@@ -2,7 +2,7 @@ package com.ai.integrator.im.message
 
 interface MessageContent
 
-interface Message<T : MessageContent> {
+interface IMMessage<T : MessageContent> {
     val messageId: String
     val sessionId: String
     val senderId: Long
