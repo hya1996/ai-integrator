@@ -8,8 +8,8 @@ import com.ai.integrator.im.IMCenter
 import com.ai.integrator.im.message.HandlerKey
 import com.ai.integrator.im.message.IMMessage
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,6 +34,8 @@ abstract class IMSessionController(
 
     protected abstract val supportMessageHandlers: List<HandlerKey<*>>
 
+    protected var messageNotifyListenJob: Job? = null
+
     open fun init() {
         initSession()
         initMessage()
@@ -54,7 +56,8 @@ abstract class IMSessionController(
     protected abstract fun createSession(): IMSession
 
     protected open fun initMessage() {
-        IMCenter.messageNotify
+        messageNotifyListenJob?.cancel()
+        messageNotifyListenJob = IMCenter.messageNotify
             .filter { it.handlerKey in supportMessageHandlers }
             .collectIn(sessionScope) {
                 addMessage(it.message)
@@ -76,6 +79,6 @@ abstract class IMSessionController(
 
     @CallSuper
     open fun destroy() {
-        sessionScope.coroutineContext.cancelChildren()
+        messageNotifyListenJob?.cancel()
     }
 }
