@@ -4,6 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class IdentityType {
+    /** 未知身份 */
+    UNKNOWN,
+
+    /** 系统 */
+    SYSTEM,
+
     /** 用户 */
     USER,
 
