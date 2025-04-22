@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.ai.integrator.core.im"
 }
+
+dependencies {
+    implementation(Modules.Core.user)
+}

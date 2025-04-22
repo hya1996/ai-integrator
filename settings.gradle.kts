@@ -29,6 +29,7 @@ include(":app")
 include(":core:framework")
 include(":core:network")
 include(":core:ui")
+include(":core:user")
 include(":core:im")
 
 include(":feature:dialogue")
