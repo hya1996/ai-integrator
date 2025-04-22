@@ -7,5 +7,5 @@ android {
 }
 
 dependencies {
-    implementation(Modules.Core.user)
+    implementation(project(Modules.Core.user))
 }
