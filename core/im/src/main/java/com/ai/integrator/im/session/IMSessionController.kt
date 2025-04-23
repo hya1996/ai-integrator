@@ -4,6 +4,7 @@ import androidx.annotation.CallSuper
 import com.ai.integrator.core.framework.coroutine.dispatcher.AppDispatcher
 import com.ai.integrator.core.framework.flow.asState
 import com.ai.integrator.core.framework.flow.collectIn
+import com.ai.integrator.core.framework.log.Log
 import com.ai.integrator.im.IMCenter
 import com.ai.integrator.im.message.HandlerKey
 import com.ai.integrator.im.message.IMMessage
@@ -17,20 +18,27 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 
 abstract class IMSessionController(
-    private val peerId: Long,
-    private val sessionScope: CoroutineScope = CoroutineScope(AppDispatcher.Background + SupervisorJob())
+    protected val peerId: Long,
+    protected val tag: String,
+    protected val sessionScope: CoroutineScope = CoroutineScope(AppDispatcher.Background + SupervisorJob())
 ) {
     private val _sessions = MutableStateFlow<Map<String, IMSession>>(emptyMap())
     val sessions = _sessions.asStateFlow()
-    private val curSessions get() = _sessions.value
+    private val curSessions: Map<String, IMSession>
+        get() = _sessions.value
 
-    private val curSessionId = MutableStateFlow("")
+    private val _curSessionId = MutableStateFlow("")
+    val curSessionId: String
+        get() = _curSessionId.value
+
     val curSession: StateFlow<IMSession?> = combine(
         _sessions,
-        curSessionId
+        _curSessionId
     ) { sessions, sessionId ->
         sessions[sessionId]
     }.asState(sessionScope, null)
+    val curMessages: List<IMMessage<*>>
+        get() = curSession.value?.messages ?: emptyList()
 
     protected abstract val supportMessageHandlers: List<HandlerKey<*>>
 
@@ -48,7 +56,7 @@ abstract class IMSessionController(
         }
 
         _sessions.value = obtainedSessions.associateBy { it.sessionId }
-        curSessionId.value = obtainedSessions.first().sessionId
+        _curSessionId.value = obtainedSessions.first().sessionId
     }
 
     protected abstract fun querySessions(): List<IMSession>
@@ -60,21 +68,30 @@ abstract class IMSessionController(
         messageNotifyListenJob = IMCenter.messageNotify
             .filter { it.handlerKey in supportMessageHandlers }
             .collectIn(sessionScope) {
-                addMessage(it.message)
+                Log.d(tag, "message notify: $it")
+                addOrModifyMessage(it.message)
             }
     }
 
     open fun switchSession(sessionId: String) {
-        curSessionId.value = sessionId
+        _curSessionId.value = sessionId
     }
 
-    open fun addMessage(message: IMMessage<*>) {
+    open fun addOrModifyMessage(message: IMMessage<*>) {
         val sessionId = message.sessionId
         val targetSession = curSessions[sessionId] ?: return
 
-        targetSession.messages.add(message)
-        targetSession.lastActiveTime = System.currentTimeMillis()
-        _sessions.value = curSessions + Pair(sessionId, targetSession)
+        val targetMsgIndex = targetSession.messages.indexOfFirst { it.messageId == message.messageId }
+        if (targetMsgIndex != -1) {
+            targetSession.messages[targetMsgIndex] = message
+        } else {
+            targetSession.messages.add(message)
+        }
+
+        val newSession = targetSession.copy(
+            lastActiveTime = System.currentTimeMillis()
+        )
+        _sessions.value = curSessions + Pair(sessionId, newSession)
     }
 
     @CallSuper

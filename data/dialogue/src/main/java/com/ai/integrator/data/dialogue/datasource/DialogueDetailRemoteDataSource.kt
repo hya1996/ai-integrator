@@ -3,7 +3,7 @@ package com.ai.integrator.data.dialogue.datasource
 import com.ai.integrator.core.framework.common.ResultOrIntError
 import com.ai.integrator.core.framework.coroutine.dispatcher.AppDispatcher
 import com.ai.integrator.core.framework.log.Log
-import com.ai.integrator.data.dialogue.model.DialogueMessage
+import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyReq
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyResp
 import com.ai.integrator.network.HttpServiceManager
@@ -39,8 +39,12 @@ class DialogueDetailRemoteDataSource {
 
     suspend fun reqDialogueReply(
         modelName: String,
-        messages: List<DialogueMessage>
+        messages: List<DialogueMessageContent>
     ): Flow<ResultOrIntError<String>> {
+        if (modelName.isEmpty()) {
+            return flowOf(ResultOrIntError.Failure(ERROR_CODE_MODEL_ARG_INVALID, "model name is invalid"))
+        }
+
         val reqBody = DialogueReplyReq(
             model = modelName,
             messages = messages
@@ -75,5 +79,6 @@ class DialogueDetailRemoteDataSource {
         private const val STREAM_DATA_DONE_FLAG = "[DONE]"
 
         private const val ERROR_CODE_PARSE_JSON = 1000
+        private const val ERROR_CODE_MODEL_ARG_INVALID = 1001
     }
 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,20 +27,16 @@ fun DialogueDetailScreen(
     modelId: Long,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DialogueDetailViewModel = viewModel()
+    viewModel: DialogueDetailViewModel = viewModel(factory = DialogueDetailViewModelFactory(modelId))
 ) {
     val localFocusManger = LocalFocusManager.current
 
     val modelInfo by viewModel.modelInfo.collectAsStateWithLifecycle()
     val inputContent by viewModel.inputContent.collectAsStateWithLifecycle()
     val enableSend by viewModel.enableSend.collectAsStateWithLifecycle()
-    val reply by viewModel.reply.collectAsStateWithLifecycle()
+    val session by viewModel.session.collectAsStateWithLifecycle()
 
     val isImeVisible by rememberImeVisibility()
-
-    LaunchedEffect(Unit) {
-        viewModel.init(modelId)
-    }
 
     Column(
         modifier = modifier
@@ -63,7 +58,7 @@ fun DialogueDetailScreen(
                     onBackClick = onBackClick,
                 )
                 DialogueDetailMessageList(
-                    content = reply,
+                    session = session,
                     modifier = Modifier
                         .weight(1f),
                 )

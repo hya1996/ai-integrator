@@ -1,23 +1,32 @@
 package com.ai.integrator.feature.dialogue.screen.detail
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.ai.integrator.core.framework.common.onFailure
-import com.ai.integrator.core.framework.common.onSuccess
 import com.ai.integrator.core.framework.flow.asState
-import com.ai.integrator.core.framework.log.Log
 import com.ai.integrator.core.framework.viewmodel.BaseViewModel
 import com.ai.integrator.data.dialogue.model.DIALOGUE_ROLE_USER
 import com.ai.integrator.data.dialogue.model.DialogueMessage
+import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.model.DialogueModelInfo
-import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
 import com.ai.integrator.data.dialogue.repository.DialogueModelRepository
+import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
+import com.ai.integrator.data.dialogue.session.DialogueSessionController
+import com.ai.integrator.im.IMCenter
+import com.ai.integrator.im.identity.IMIdentity
+import com.ai.integrator.im.identity.IdentityType
+import com.ai.integrator.im.message.MessageStatus
+import com.ai.integrator.user.uid.myUid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.UUID
 
-class DialogueDetailViewModel : BaseViewModel() {
+class DialogueDetailViewModel(
+    private val modelId: Long
+) : BaseViewModel() {
     private val _inputContent = MutableStateFlow("")
     val inputContent = _inputContent.asStateFlow()
 
@@ -25,20 +34,21 @@ class DialogueDetailViewModel : BaseViewModel() {
         .map { it.isNotEmpty() }
         .asState(viewModelScope, false)
 
-    private val _reply = MutableStateFlow("")
-    val reply = _reply.asStateFlow()
-
     private val _modelInfo = MutableStateFlow<DialogueModelInfo?>(null)
     val modelInfo = _modelInfo.asStateFlow()
 
-    private val dialogueModelRepo  = DialogueModelRepository()
-    private val dialogueDetailRepo = DialogueDetailRepository()
+    private val sessionController = DialogueSessionController(modelId)
+    val session = sessionController.curSession
 
-    fun init(modelId: Long) {
-        initModelInfo(modelId)
+    private val dialogueModelRepo  = DialogueModelRepository()
+
+    init {
+        initModelInfo()
+        sessionController.init()
+        IMCenter.registerMessageHandler(DialogueMessageHandler.Key, DialogueMessageHandler(viewModelScope))
     }
 
-    private fun initModelInfo(modelId: Long) = viewModelScope.launch {
+    private fun initModelInfo() = viewModelScope.launch {
         _modelInfo.value = dialogueModelRepo.getModelById(modelId)
     }
 
@@ -46,22 +56,43 @@ class DialogueDetailViewModel : BaseViewModel() {
         _inputContent.value = content
     }
 
+    fun clearInputContent() {
+        _inputContent.value = ""
+    }
+
     fun sendDialogueMessage() = viewModelScope.launch {
-        val curModelInfo = modelInfo.value ?: return@launch
-        val message = DialogueMessage(
-            role = DIALOGUE_ROLE_USER,
-            content = _inputContent.value
+        val sendMsg = DialogueMessage(
+            messageId = UUID.randomUUID().toString(),
+            sessionId = sessionController.curSessionId,
+            sender = IMIdentity(myUid.uid, IdentityType.USER),
+            receiver = IMIdentity(modelId, IdentityType.AI),
+            content = DialogueMessageContent(DIALOGUE_ROLE_USER, _inputContent.value),
+            timestamp = System.currentTimeMillis(),
+            status = MessageStatus.SENDING
         )
-        dialogueDetailRepo.reqDialogueReply(curModelInfo.modelName, listOf(message)).collect {
-            it.onSuccess { content ->
-                _reply.value += content
-            }.onFailure { code, message ->
-                Log.e(TAG, "reqDialogueReply fail code: $code, message: $message")
-            }
-        }
+        clearInputContent()
+        IMCenter.dispatchMessages(DialogueMessageHandler.Key, sessionController.curMessages + sendMsg)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        IMCenter.unregisterMessageHandler(DialogueMessageHandler.Key)
     }
 
     companion object {
         private const val TAG = "DialogueDetailViewModel"
+    }
+}
+
+class DialogueDetailViewModelFactory(
+    private val modelId: Long
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (!modelClass.isAssignableFrom(DialogueDetailViewModel::class.java)) {
+            throw IllegalArgumentException("Unknown ViewModel Class")
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        return DialogueDetailViewModel(modelId) as T
     }
 }
