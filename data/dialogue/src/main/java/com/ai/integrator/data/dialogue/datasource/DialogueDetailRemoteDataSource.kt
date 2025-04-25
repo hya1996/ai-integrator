@@ -62,7 +62,7 @@ class DialogueDetailRemoteDataSource {
                 if (it == STREAM_DATA_DONE_FLAG) return@map ResultOrIntError.Success("")
 
                 try {
-                    val content = gson.fromJson(it, DialogueReplyResp::class.java).choices[0].delta.content
+                    val content = gson.fromJson(it, DialogueReplyResp::class.java).choices[0].delta.text
                     ResultOrIntError.Success(content)
                 } catch (e: Exception) {
                     Log.e(TAG, "parse reply error: ${e.message}")

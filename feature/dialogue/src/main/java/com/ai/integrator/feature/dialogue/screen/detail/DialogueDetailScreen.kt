@@ -34,7 +34,7 @@ fun DialogueDetailScreen(
     val modelInfo by viewModel.modelInfo.collectAsStateWithLifecycle()
     val inputContent by viewModel.inputContent.collectAsStateWithLifecycle()
     val enableSend by viewModel.enableSend.collectAsStateWithLifecycle()
-    val session by viewModel.session.collectAsStateWithLifecycle()
+    val messages by viewModel.messages.collectAsStateWithLifecycle()
 
     val isImeVisible by rememberImeVisibility()
 
@@ -58,7 +58,7 @@ fun DialogueDetailScreen(
                     onBackClick = onBackClick,
                 )
                 DialogueDetailMessageList(
-                    session = session,
+                    messages = messages,
                     modifier = Modifier
                         .weight(1f),
                 )

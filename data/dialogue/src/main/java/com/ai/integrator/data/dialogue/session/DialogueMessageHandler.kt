@@ -53,12 +53,13 @@ class DialogueMessageHandler(
             return
         }
 
-        val replyMsg = DialogueMessage(
+        var replyContent = DialogueMessageContent(DIALOGUE_ROLE_ASSISTANT, "")
+        var replyMsg = DialogueMessage(
             messageId = UUID.randomUUID().toString(),
             sessionId = lastMsg.sessionId,
             sender = lastMsg.receiver,
             receiver = lastMsg.sender,
-            content = DialogueMessageContent(DIALOGUE_ROLE_ASSISTANT, ""),
+            content = replyContent,
             timestamp = System.currentTimeMillis(),
             status = MessageStatus.NO_STATUS
         )
@@ -67,7 +68,8 @@ class DialogueMessageHandler(
             messages = messages.map { it.content }
         ).collectIn(scope) {
             it.onSuccess { content ->
-                replyMsg.content.content += content
+                replyContent = replyContent.copy(text = replyContent.text + content)
+                replyMsg = replyMsg.copy(content = replyContent)
                 _receiveMessageNotify.publish(replyMsg)
             }.onFailure { code, message ->
                 Log.e(TAG, "handleDialogueMessages fail code: $code, message: $message")

@@ -38,7 +38,9 @@ class DialogueDetailViewModel(
     val modelInfo = _modelInfo.asStateFlow()
 
     private val sessionController = DialogueSessionController(modelId)
-    val session = sessionController.curSession
+    val messages: StateFlow<List<DialogueMessage>> = sessionController.curSession
+        .map { it?.messages?.map { msg -> msg as DialogueMessage } ?: emptyList() }
+        .asState(viewModelScope, emptyList())
 
     private val dialogueModelRepo  = DialogueModelRepository()
 

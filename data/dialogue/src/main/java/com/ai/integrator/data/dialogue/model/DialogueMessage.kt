@@ -6,6 +6,7 @@ import com.ai.integrator.im.message.IMMessage
 import com.ai.integrator.im.message.MessageContent
 import com.ai.integrator.im.message.MessageStatus
 import com.ai.integrator.im.message.MessageType
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 const val DIALOGUE_ROLE_USER = "user"
@@ -14,8 +15,11 @@ const val DIALOGUE_ROLE_SYSTEM = "system"
 
 @Serializable
 data class DialogueMessageContent(
+    @SerializedName("role")
     val role: String = "",
-    var content: String
+
+    @SerializedName("content")
+    val text: String
 ) : MessageContent
 
 @Serializable
