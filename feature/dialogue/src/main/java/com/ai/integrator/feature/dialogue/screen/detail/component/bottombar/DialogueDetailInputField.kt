@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.ai.integrator.core.ui.theme.AITheme
 fun DialogueDetailBottomBar(
     inputContent: String,
     onInputChange: (String) -> Unit,
+    onInputFocusChange: (Boolean) -> Unit,
     enableSend: Boolean,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -56,6 +58,7 @@ fun DialogueDetailBottomBar(
             DialogueDetailInputField(
                 inputContent = inputContent,
                 onInputChange = onInputChange,
+                onInputFocusChange = onInputFocusChange,
                 modifier = Modifier
                     .weight(1f)
                     .align(Alignment.CenterVertically)
@@ -73,6 +76,7 @@ fun DialogueDetailBottomBar(
 fun DialogueDetailInputField(
     inputContent: String,
     onInputChange: (String) -> Unit,
+    onInputFocusChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BasicTextField(
@@ -93,7 +97,8 @@ fun DialogueDetailInputField(
             .padding(
                 horizontal = 8.dp,
                 vertical = 10.dp
-            ),
+            )
+            .onFocusChanged { onInputFocusChange(it.isFocused) },
         textStyle = TextStyle(
             color = colorScheme.primary,
             fontSize = 16.sp,
@@ -138,6 +143,7 @@ fun DialogueDetailBottomBarPreview() {
         DialogueDetailBottomBar(
             inputContent = "这是一段消息",
             onInputChange = {},
+            onInputFocusChange = {},
             enableSend = true,
             onSendClick = {},
         )

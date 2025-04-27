@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +23,7 @@ import com.ai.integrator.core.ui.ime.rememberImeVisibility
 import com.ai.integrator.feature.dialogue.screen.detail.component.bottombar.DialogueDetailBottomBar
 import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.DialogueDetailMessageList
 import com.ai.integrator.feature.dialogue.screen.detail.component.topbar.DialogueDetailTopBar
+import kotlinx.coroutines.launch
 
 @Composable
 fun DialogueDetailScreen(
@@ -37,6 +40,8 @@ fun DialogueDetailScreen(
     val messages by viewModel.messages.collectAsStateWithLifecycle()
 
     val isImeVisible by rememberImeVisibility()
+    val scope = rememberCoroutineScope()
+    val msgListState = rememberLazyListState()
 
     Column(
         modifier = modifier
@@ -59,6 +64,7 @@ fun DialogueDetailScreen(
                 )
                 DialogueDetailMessageList(
                     messages = messages,
+                    listState = msgListState,
                     modifier = Modifier
                         .weight(1f),
                 )
@@ -82,8 +88,19 @@ fun DialogueDetailScreen(
         DialogueDetailBottomBar(
             inputContent = inputContent,
             onInputChange = { viewModel.updateInputContent(it) },
+            onInputFocusChange = { isFocused ->
+                scope.launch {
+                    if (isFocused) msgListState.animateScrollToItem(0)
+                }
+            },
             enableSend = enableSend,
-            onSendClick = { viewModel.sendDialogueMessage() },
+            onSendClick = {
+                viewModel.sendDialogueMessage()
+                localFocusManger.clearFocus()
+                scope.launch {
+                    msgListState.animateScrollToItem(0)
+                }
+            },
         )
     }
 }
