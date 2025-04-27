@@ -3,11 +3,11 @@ package com.ai.integrator.data.dialogue.datasource
 import com.ai.integrator.core.framework.common.ResultOrIntError
 import com.ai.integrator.core.framework.coroutine.dispatcher.AppDispatcher
 import com.ai.integrator.core.framework.log.Log
+import com.ai.integrator.core.framework.serialization.json.JsonHelper
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyReq
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyResp
 import com.ai.integrator.network.HttpServiceManager
-import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOf
@@ -31,10 +31,6 @@ private interface DialogueDetailServiceApi {
 class DialogueDetailRemoteDataSource {
     private val serviceApi by lazy {
         HttpServiceManager.getServiceApi(DialogueDetailServiceApi::class.java, TAG)
-    }
-
-    private val gson by lazy {
-        GsonBuilder().disableHtmlEscaping().create()
     }
 
     suspend fun reqDialogueReply(
@@ -62,7 +58,7 @@ class DialogueDetailRemoteDataSource {
                 if (it == STREAM_DATA_DONE_FLAG) return@map ResultOrIntError.Success("")
 
                 try {
-                    val content = gson.fromJson(it, DialogueReplyResp::class.java).choices[0].delta.text
+                    val content = JsonHelper.json.decodeFromString<DialogueReplyResp>(it).choices[0].delta.text
                     ResultOrIntError.Success(content)
                 } catch (e: Exception) {
                     Log.e(TAG, "parse reply error: ${e.message}")

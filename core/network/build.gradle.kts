@@ -8,5 +8,5 @@ android {
 
 dependencies {
     api(libs.retrofit)
-    api(libs.retrofit.converter.gson)
+    api(libs.retrofit.converter.kotlinx.serialization)
 }
