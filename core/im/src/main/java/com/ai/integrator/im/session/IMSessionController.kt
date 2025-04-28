@@ -17,21 +17,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 
-abstract class IMSessionController(
+abstract class IMSessionController<T : IMSession<T>>(
     protected val peerId: Long,
     protected val tag: String,
     protected val sessionScope: CoroutineScope = CoroutineScope(AppDispatcher.Background + SupervisorJob())
 ) {
-    private val _sessions = MutableStateFlow<Map<String, IMSession>>(emptyMap())
+    private val _sessions = MutableStateFlow<Map<String, T>>(emptyMap())
     val sessions = _sessions.asStateFlow()
-    private val curSessions: Map<String, IMSession>
+    private val curSessions: Map<String, T>
         get() = _sessions.value
 
     private val _curSessionId = MutableStateFlow("")
     val curSessionId: String
         get() = _curSessionId.value
 
-    val curSession: StateFlow<IMSession?> = combine(
+    val curSession: StateFlow<T?> = combine(
         _sessions,
         _curSessionId
     ) { sessions, sessionId ->
@@ -59,9 +59,9 @@ abstract class IMSessionController(
         _curSessionId.value = obtainedSessions.first().sessionId
     }
 
-    protected abstract fun querySessions(): List<IMSession>
+    protected abstract fun querySessions(): List<T>
 
-    protected abstract fun createSession(): IMSession
+    protected abstract fun createSession(): T
 
     protected open fun initMessage() {
         messageNotifyListenJob?.cancel()
@@ -88,9 +88,9 @@ abstract class IMSessionController(
             targetSession.messages.add(message)
         }
 
-        val newSession = targetSession.copy(
+        val newSession = targetSession.copySession().apply {
             lastActiveTime = System.currentTimeMillis()
-        )
+        }
         _sessions.value = curSessions + Pair(sessionId, newSession)
     }
 

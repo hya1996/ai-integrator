@@ -96,7 +96,6 @@ fun DialogueDetailScreen(
             enableSend = enableSend,
             onSendClick = {
                 viewModel.sendDialogueMessage()
-                localFocusManger.clearFocus()
                 scope.launch {
                     msgListState.animateScrollToItem(0)
                 }
