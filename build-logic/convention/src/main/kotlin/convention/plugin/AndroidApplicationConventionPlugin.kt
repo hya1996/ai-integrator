@@ -18,6 +18,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
                 apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("kotlin-parcelize")
+                apply("com.google.devtools.ksp")
+                apply("com.google.dagger.hilt.android")
             }
 
             extensions.configure<ApplicationExtension> {
@@ -30,6 +32,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findBundle("android-base").get())
 
                 "implementation"(project(Modules.Core.framework))
+
+                "ksp"(libs.findLibrary("hilt-android-compiler").get())
             }
         }
     }
