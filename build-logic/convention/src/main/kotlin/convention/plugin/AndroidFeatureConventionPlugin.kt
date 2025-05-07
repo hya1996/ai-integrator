@@ -16,8 +16,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "implementation"(libs.findLibrary("coil.compose").get())
-                "implementation"(libs.findLibrary("coil.network.okhttp").get())
+                "implementation"(libs.findLibrary("coil-compose").get())
+                "implementation"(libs.findLibrary("coil-network-okhttp").get())
 
                 "implementation"(project(Modules.Core.ui))
             }
