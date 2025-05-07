@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ai.integrator.core.ui.ime.rememberImeVisibility
 import com.ai.integrator.feature.dialogue.screen.detail.component.bottombar.DialogueDetailBottomBar
 import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.DialogueDetailMessageList
@@ -30,7 +30,9 @@ fun DialogueDetailScreen(
     modelId: Long,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DialogueDetailViewModel = viewModel(factory = DialogueDetailViewModelFactory(modelId))
+    viewModel: DialogueDetailViewModel = hiltViewModel<DialogueDetailViewModel, DialogueDetailViewModel.Factory> { factory ->
+        factory.create(modelId)
+    }
 ) {
     val localFocusManger = LocalFocusManager.current
 

@@ -7,8 +7,8 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ai.integrator.feature.dialogue.screen.home.component.modellist.DialogueHomeModelList
 import com.ai.integrator.feature.dialogue.screen.home.component.topbar.DialogueHomeTopBar
 
@@ -16,7 +16,7 @@ import com.ai.integrator.feature.dialogue.screen.home.component.topbar.DialogueH
 fun DialogueHomeScreen(
     onModelItemClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DialogueHomeViewModel = viewModel(),
+    viewModel: DialogueHomeViewModel = hiltViewModel(),
 ) {
     val modelList by viewModel.modelList.collectAsStateWithLifecycle()
 

@@ -1,7 +1,5 @@
 package com.ai.integrator.feature.dialogue.screen.detail
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ai.integrator.core.framework.flow.asState
 import com.ai.integrator.core.framework.viewmodel.BaseViewModel
@@ -9,6 +7,7 @@ import com.ai.integrator.data.dialogue.model.DIALOGUE_ROLE_USER
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.model.DialogueModelInfo
+import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
 import com.ai.integrator.data.dialogue.repository.DialogueModelRepository
 import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
 import com.ai.integrator.data.dialogue.session.DialogueSessionController
@@ -17,6 +16,10 @@ import com.ai.integrator.im.identity.IMIdentity
 import com.ai.integrator.im.identity.IdentityType
 import com.ai.integrator.im.message.MessageStatus
 import com.ai.integrator.user.uid.myUid
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,8 +27,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class DialogueDetailViewModel(
-    private val modelId: Long
+@HiltViewModel(assistedFactory = DialogueDetailViewModel.Factory::class)
+class DialogueDetailViewModel @AssistedInject constructor(
+    @Assisted private val modelId: Long,
+    private val dialogueModelRepo: DialogueModelRepository,
+    private val dialogueDetailRepo: DialogueDetailRepository
 ) : BaseViewModel() {
     private val _inputContent = MutableStateFlow("")
     val inputContent = _inputContent.asStateFlow()
@@ -42,12 +48,11 @@ class DialogueDetailViewModel(
         .map { it?.messages?.map { msg -> msg as DialogueMessage }?.reversed() ?: emptyList() }
         .asState(viewModelScope, emptyList())
 
-    private val dialogueModelRepo  = DialogueModelRepository()
-
     init {
         initModelInfo()
         sessionController.init()
-        IMCenter.registerMessageHandler(DialogueMessageHandler.Key, DialogueMessageHandler(viewModelScope))
+        IMCenter.registerMessageHandler(DialogueMessageHandler.Key,
+            DialogueMessageHandler(viewModelScope, dialogueDetailRepo))
     }
 
     private fun initModelInfo() = viewModelScope.launch {
@@ -81,20 +86,12 @@ class DialogueDetailViewModel(
         IMCenter.unregisterMessageHandler(DialogueMessageHandler.Key)
     }
 
+    @AssistedFactory
+    interface Factory {
+        fun create(modelId: Long): DialogueDetailViewModel
+    }
+
     companion object {
         private const val TAG = "DialogueDetailViewModel"
-    }
-}
-
-class DialogueDetailViewModelFactory(
-    private val modelId: Long
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (!modelClass.isAssignableFrom(DialogueDetailViewModel::class.java)) {
-            throw IllegalArgumentException("Unknown ViewModel Class")
-        }
-
-        @Suppress("UNCHECKED_CAST")
-        return DialogueDetailViewModel(modelId) as T
     }
 }

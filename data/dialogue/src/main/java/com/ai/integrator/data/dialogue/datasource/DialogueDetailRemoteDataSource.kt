@@ -19,6 +19,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Streaming
+import javax.inject.Inject
 
 private interface DialogueDetailServiceApi {
     @POST("chat/completions")
@@ -28,7 +29,7 @@ private interface DialogueDetailServiceApi {
     ): Response<ResponseBody>
 }
 
-class DialogueDetailRemoteDataSource {
+class DialogueDetailRemoteDataSource @Inject constructor() {
     private val serviceApi by lazy {
         HttpServiceManager.getServiceApi(DialogueDetailServiceApi::class.java, TAG)
     }

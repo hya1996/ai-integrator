@@ -4,10 +4,11 @@ import com.ai.integrator.core.framework.common.ResultOrIntError
 import com.ai.integrator.data.dialogue.datasource.DialogueDetailRemoteDataSource
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class DialogueDetailRepository(
-    private val dialogueModelRepo: DialogueModelRepository = DialogueModelRepository(),
-    private val dialogueDetailRemoteDS: DialogueDetailRemoteDataSource = DialogueDetailRemoteDataSource()
+class DialogueDetailRepository @Inject constructor(
+    private val dialogueModelRepo: DialogueModelRepository,
+    private val dialogueDetailRemoteDS: DialogueDetailRemoteDataSource
 ) {
     suspend fun reqDialogueReply(
         modelId: Long,

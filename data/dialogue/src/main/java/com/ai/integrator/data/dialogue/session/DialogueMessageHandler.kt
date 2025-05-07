@@ -22,7 +22,7 @@ private const val TAG = "DialogueMessageHandler"
 
 class DialogueMessageHandler(
     private val scope: CoroutineScope,
-    private val dialogueDetailRepo: DialogueDetailRepository = DialogueDetailRepository()
+    private val dialogueDetailRepo: DialogueDetailRepository
 ) : IMMessageHandler {
     object Key : HandlerKey<DialogueMessageHandler>
 
