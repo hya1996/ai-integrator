@@ -7,5 +7,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.room.runtime)
+
     implementation(project(Modules.Core.user))
 }
