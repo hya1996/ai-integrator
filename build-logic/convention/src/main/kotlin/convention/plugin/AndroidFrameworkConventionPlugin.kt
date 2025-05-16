@@ -27,6 +27,7 @@ class AndroidFrameworkConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
+                "implementation"(platform(libs.findLibrary("koin-bom").get()))
                 "implementation"(libs.findBundle("common-base").get())
                 "implementation"(libs.findBundle("android-base").get())
 

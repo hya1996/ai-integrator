@@ -13,8 +13,7 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            val bom = libs.findLibrary("androidx-compose-bom").get()
-            "implementation"(platform(bom))
+            "implementation"(platform(libs.findLibrary("androidx-compose-bom").get()))
             "implementation"(libs.findBundle("android-compose").get())
 
             "debugImplementation"(libs.findLibrary("androidx-compose-ui-tooling").get())
