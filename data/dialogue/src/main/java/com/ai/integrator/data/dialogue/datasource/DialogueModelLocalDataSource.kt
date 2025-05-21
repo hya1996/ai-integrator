@@ -3,9 +3,8 @@ package com.ai.integrator.data.dialogue.datasource
 import com.ai.integrator.data.dialogue.model.DialogueModelInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
 
-class DialogueModelLocalDataSource @Inject constructor() {
+class DialogueModelLocalDataSource {
     private val models = listOf(
         DialogueModelInfo(
             modelId = 1000L,

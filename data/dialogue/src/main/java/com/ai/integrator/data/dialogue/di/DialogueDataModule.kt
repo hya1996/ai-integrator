@@ -1,30 +1,27 @@
 package com.ai.integrator.data.dialogue.di
 
 import androidx.room.Room
-import com.ai.integrator.core.framework.util.AppUtils
 import com.ai.integrator.data.dialogue.database.DialogueDatabase
 import com.ai.integrator.data.dialogue.database.dao.DialogueMessageDao
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import com.ai.integrator.data.dialogue.datasource.DialogueDetailRemoteDataSource
+import com.ai.integrator.data.dialogue.datasource.DialogueModelLocalDataSource
+import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
+import com.ai.integrator.data.dialogue.repository.DialogueModelRepository
+import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
+import com.ai.integrator.data.dialogue.session.DialogueSessionController
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal object DialogueDataModule {
-    @Provides
-    @Singleton
-    fun provideDialogueDatabase(): DialogueDatabase {
-        return Room.databaseBuilder(
-            AppUtils.context,
-            DialogueDatabase::class.java,
-            "dialogue-database"
-        ).build()
+val dialogueDataModule = module {
+    single<DialogueDatabase> {
+        Room.databaseBuilder(get(), DialogueDatabase::class.java, "dialogue-database").build()
     }
+    single<DialogueMessageDao> { get<DialogueDatabase>().dialogueMessageDao() }
+    singleOf(::DialogueDetailRemoteDataSource)
+    singleOf(::DialogueModelLocalDataSource)
+    singleOf(::DialogueModelRepository)
+    singleOf(::DialogueDetailRepository)
 
-    @Provides
-    fun provideDialogueMessageDao(
-        database: DialogueDatabase
-    ): DialogueMessageDao = database.dialogueMessageDao()
+    factory { params -> DialogueSessionController(params.get()) }
+    factory { params -> DialogueMessageHandler(params.get(), get()) }
 }

@@ -1,8 +1,9 @@
 package convention.plugin
 
+import Modules
+import com.android.build.api.dsl.ApplicationExtension
 import convention.Configs
 import convention.ext.configureKotlinAndroid
-import com.android.build.api.dsl.ApplicationExtension
 import convention.ext.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,7 +20,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("kotlin-parcelize")
                 apply("com.google.devtools.ksp")
-                apply("com.google.dagger.hilt.android")
             }
 
             extensions.configure<ApplicationExtension> {
@@ -33,8 +33,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findBundle("android-base").get())
 
                 "implementation"(project(Modules.Core.framework))
-
-                "ksp"(libs.findLibrary("hilt-android-compiler").get())
             }
         }
     }

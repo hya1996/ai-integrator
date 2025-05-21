@@ -18,7 +18,6 @@ class AndroidFrameworkConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("kotlin-parcelize")
                 apply("com.google.devtools.ksp")
-                apply("com.google.dagger.hilt.android")
             }
 
             extensions.configure<LibraryExtension> {
@@ -30,8 +29,6 @@ class AndroidFrameworkConventionPlugin : Plugin<Project> {
                 "implementation"(platform(libs.findLibrary("koin-bom").get()))
                 "implementation"(libs.findBundle("common-base").get())
                 "implementation"(libs.findBundle("android-base").get())
-
-                "ksp"(libs.findLibrary("hilt-android-compiler").get())
             }
         }
     }

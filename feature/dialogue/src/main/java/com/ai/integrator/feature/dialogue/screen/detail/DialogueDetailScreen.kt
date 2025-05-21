@@ -17,22 +17,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ai.integrator.core.ui.ime.rememberImeVisibility
 import com.ai.integrator.feature.dialogue.screen.detail.component.bottombar.DialogueDetailBottomBar
 import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.DialogueDetailMessageList
 import com.ai.integrator.feature.dialogue.screen.detail.component.topbar.DialogueDetailTopBar
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DialogueDetailScreen(
     modelId: Long,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DialogueDetailViewModel = hiltViewModel<DialogueDetailViewModel, DialogueDetailViewModel.Factory> { factory ->
-        factory.create(modelId)
-    }
+    viewModel: DialogueDetailViewModel = koinViewModel { parametersOf(modelId) }
 ) {
     val localFocusManger = LocalFocusManager.current
 
