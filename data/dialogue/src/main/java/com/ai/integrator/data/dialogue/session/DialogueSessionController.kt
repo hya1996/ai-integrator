@@ -22,7 +22,7 @@ class DialogueSessionController(
     override fun createSession(): DialogueSession {
         return DialogueSession(
             sessionId = UUID.randomUUID().toString(),
-            participantIds = listOf(
+            participants = listOf(
                 IMIdentity(id = myUid.uid, type = IdentityType.USER),
                 IMIdentity(id = peerId, type = IdentityType.AI)
             ),

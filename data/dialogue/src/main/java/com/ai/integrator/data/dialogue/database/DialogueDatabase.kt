@@ -4,18 +4,23 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ai.integrator.data.dialogue.database.dao.DialogueMessageDao
+import com.ai.integrator.data.dialogue.database.dao.DialogueSessionDao
 import com.ai.integrator.data.dialogue.database.entity.DialogueMessageEntity
+import com.ai.integrator.data.dialogue.database.entity.DialogueSessionEntity
 import com.ai.integrator.im.identity.IMIdentityConverter
 
 @Database(
     entities = [
-        DialogueMessageEntity::class
+        DialogueMessageEntity::class,
+        DialogueSessionEntity::class
     ],
-    version = 1,
+    version = 1
 )
 @TypeConverters(
     IMIdentityConverter::class
 )
 internal abstract class DialogueDatabase : RoomDatabase() {
     abstract fun dialogueMessageDao(): DialogueMessageDao
+
+    abstract fun dialogueSessionDao(): DialogueSessionDao
 }

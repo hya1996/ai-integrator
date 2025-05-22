@@ -5,7 +5,7 @@ import com.ai.integrator.im.message.IMMessage
 
 interface IMSession<T : IMSession<T>> {
     val sessionId: String
-    val participantIds: List<IMIdentity>
+    val participants: List<IMIdentity>
     val messages: MutableList<IMMessage<*>>
     var lastActiveTime: Long
 

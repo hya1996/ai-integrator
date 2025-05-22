@@ -9,8 +9,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DialogueMessageDao {
-    @Query(value = "SELECT * FROM dialogue_message")
-    fun getDialogueMessages(): Flow<List<DialogueMessageEntity>>
+    @Query(value = """
+        SELECT * FROM dialogue_message 
+        WHERE session_id = :sessionId
+        ORDER BY timestamp
+    """)
+    fun getDialogueMessagesBySessionId(sessionId: String): Flow<List<DialogueMessageEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDialogueMessage(message: DialogueMessageEntity)

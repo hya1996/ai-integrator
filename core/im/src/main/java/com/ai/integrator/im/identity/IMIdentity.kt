@@ -14,14 +14,31 @@ data class IMIdentity(
     val type: IdentityType
 )
 
+val defaultUnknownIMIdentity by lazy {
+    IMIdentity(
+        id = 0L,
+        type = IdentityType.UNKNOWN
+    )
+}
+
 class IMIdentityConverter {
     @TypeConverter
-    fun stringToIMIdentity(string: String?): IMIdentity? {
-        return JsonHelper.safeDecodeFromString(string, null)
+    fun stringToIMIdentity(string: String): IMIdentity {
+        return JsonHelper.safeDecodeFromString(string, defaultUnknownIMIdentity)
     }
 
     @TypeConverter
-    fun iMIdentityToString(identity: IMIdentity?): String? {
-        return identity?.let { JsonHelper.safeEncodeToString(it) }
+    fun iMIdentityToString(identity: IMIdentity): String {
+        return JsonHelper.safeEncodeToString(identity)
+    }
+
+    @TypeConverter
+    fun stringToIMIdentities(string: String): List<IMIdentity> {
+        return JsonHelper.safeDecodeFromString(string, emptyList())
+    }
+
+    @TypeConverter
+    fun iMIdentitiesToString(identities: List<IMIdentity>): String {
+        return JsonHelper.safeEncodeToString(identities)
     }
 }
