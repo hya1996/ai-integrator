@@ -2,8 +2,7 @@ package com.ai.integrator
 
 import com.ai.integrator.core.framework.application.BaseApplication
 import com.ai.integrator.core.framework.util.AppUtils
-import com.ai.integrator.data.dialogue.di.dialogueDataModule
-import com.ai.integrator.feature.dialogue.di.dialogueFeatureModule
+import com.ai.integrator.feature.dialogue.DialogueModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -13,15 +12,16 @@ class MainApplication : BaseApplication() {
 
         AppUtils.init(this)
         initKoin()
+        initApplicationModules()
     }
 
     private fun initKoin() {
         startKoin {
             androidContext(this@MainApplication)
-            modules(
-                dialogueDataModule,
-                dialogueFeatureModule
-            )
         }
+    }
+
+    private fun initApplicationModules() {
+        DialogueModule().init()
     }
 }

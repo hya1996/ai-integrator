@@ -12,7 +12,7 @@ import com.ai.integrator.data.dialogue.session.DialogueSessionController
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-val dialogueDataModule = module {
+val dialogueDataDIModule = module {
     single<DialogueDatabase> {
         Room.databaseBuilder(get(), DialogueDatabase::class.java, "dialogue-database").build()
     }

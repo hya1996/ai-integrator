@@ -6,7 +6,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
-val dialogueFeatureModule = module {
+val dialogueFeatureDIModule = module {
     viewModelOf(::DialogueHomeViewModel)
     viewModel { params -> DialogueDetailViewModel(params.get(), get()) }
 }
