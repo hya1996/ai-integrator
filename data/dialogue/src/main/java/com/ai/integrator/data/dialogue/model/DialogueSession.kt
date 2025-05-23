@@ -8,7 +8,7 @@ data class DialogueSession(
     override val sessionId: String,
     override val participants: List<IMIdentity>,
     override val messages: MutableList<IMMessage<*>>,
-    override var lastActiveTime: Long = System.currentTimeMillis()
+    override var lastActiveTime: Long = System.currentTimeMillis(),
 ) : IMSession<DialogueSession> {
     override fun copySession(): DialogueSession {
         return this.copy()

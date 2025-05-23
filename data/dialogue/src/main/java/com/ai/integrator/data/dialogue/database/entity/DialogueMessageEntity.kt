@@ -2,6 +2,8 @@ package com.ai.integrator.data.dialogue.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.ai.integrator.core.framework.serialization.json.JsonHelper
 import com.ai.integrator.data.dialogue.model.DialogueMessage
@@ -9,7 +11,18 @@ import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.im.identity.IMIdentity
 import com.ai.integrator.im.message.MessageStatus
 
-@Entity(tableName = "dialogue_message")
+@Entity(
+    tableName = "dialogue_message",
+    foreignKeys = [
+        ForeignKey(
+            entity = DialogueSessionEntity::class,
+            parentColumns = ["session_id"],
+            childColumns = ["session_id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(value = ["session_id"])]
+)
 data class DialogueMessageEntity(
     @PrimaryKey
     @ColumnInfo(name = "message_id")
@@ -38,13 +51,27 @@ data class DialogueMessageEntity(
 )
 
 fun DialogueMessageEntity.toDialogueMessage(): DialogueMessage {
-    val parsedContent = JsonHelper.safeDecodeFromString(content, DialogueMessageContent(text = ""))
+    val decodedContent = JsonHelper.safeDecodeFromString(content, DialogueMessageContent(text = ""))
     return DialogueMessage(
         messageId = messageId,
         sessionId = sessionId,
         sender = sender,
         receiver = receiver,
-        content = parsedContent,
+        content = decodedContent,
+        timestamp = timestamp,
+        status = status
+    )
+}
+
+fun DialogueMessage.toDialogueMessageEntity(): DialogueMessageEntity {
+    val encodedContent = JsonHelper.safeEncodeToString(content)
+    return DialogueMessageEntity(
+        messageId = messageId,
+        sessionId = sessionId,
+        sender = sender,
+        receiver = receiver,
+        type = type,
+        content = encodedContent,
         timestamp = timestamp,
         status = status
     )

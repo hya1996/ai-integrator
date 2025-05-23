@@ -14,8 +14,8 @@ interface DialogueMessageDao {
         WHERE session_id = :sessionId
         ORDER BY timestamp
     """)
-    fun getDialogueMessagesBySessionId(sessionId: String): Flow<List<DialogueMessageEntity>>
+    suspend fun getDialogueMessagesBySessionId(sessionId: String): List<DialogueMessageEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDialogueMessage(message: DialogueMessageEntity)
+    suspend fun insertDialogueMessage(message: DialogueMessageEntity)
 }

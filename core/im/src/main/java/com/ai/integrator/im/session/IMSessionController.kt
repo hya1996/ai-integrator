@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 abstract class IMSessionController<T : IMSession<T>>(
     protected val peerId: Long,
@@ -45,11 +46,13 @@ abstract class IMSessionController<T : IMSession<T>>(
     protected var messageNotifyListenJob: Job? = null
 
     open fun init() {
-        initSession()
-        initMessage()
+        sessionScope.launch {
+            initSession()
+            initMessage()
+        }
     }
 
-    protected open fun initSession() {
+    protected open suspend fun initSession() {
         var obtainedSessions = querySessions()
         if (obtainedSessions.isEmpty()) {
             obtainedSessions = listOf(createSession())
@@ -59,7 +62,7 @@ abstract class IMSessionController<T : IMSession<T>>(
         _curSessionId.value = obtainedSessions.first().sessionId
     }
 
-    protected abstract fun querySessions(): List<T>
+    protected abstract suspend fun querySessions(): List<T>
 
     protected abstract fun createSession(): T
 

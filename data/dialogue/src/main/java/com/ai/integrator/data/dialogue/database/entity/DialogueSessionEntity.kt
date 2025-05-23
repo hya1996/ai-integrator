@@ -7,7 +7,7 @@ import com.ai.integrator.data.dialogue.model.DialogueSession
 import com.ai.integrator.im.identity.IMIdentity
 import com.ai.integrator.im.message.IMMessage
 
-@Entity(tableName = "dialogue_session")
+@Entity(tableName = "dialogue_session",)
 data class DialogueSessionEntity(
     @PrimaryKey
     @ColumnInfo(name = "session_id")
@@ -27,6 +27,14 @@ fun DialogueSessionEntity.toDialogueSession(
         sessionId = sessionId,
         participants = participants,
         messages = messages,
+        lastActiveTime = lastActiveTime
+    )
+}
+
+fun DialogueSession.toDialogueSessionEntity(): DialogueSessionEntity {
+    return DialogueSessionEntity(
+        sessionId = sessionId,
+        participants = participants,
         lastActiveTime = lastActiveTime
     )
 }

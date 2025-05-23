@@ -47,6 +47,8 @@ class DialogueMessageHandler(
         }
 
         val lastMsg = messages.last()
+        dialogueDetailRepo.insertDialogueMessage(lastMsg)
+
         val receiver = lastMsg.receiver
         if (receiver.type != IdentityType.AI) {
             Log.e(TAG, "handleDialogueMessages receiver message object not AI model")

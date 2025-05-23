@@ -21,12 +21,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
+import org.koin.core.context.GlobalContext.get
 import org.koin.core.parameter.parametersOf
 import java.util.UUID
 
 class DialogueDetailViewModel(
     private val modelId: Long,
-    private val dialogueModelRepo: DialogueModelRepository,
+    private val dialogueModelRepo: DialogueModelRepository
 ) : BaseViewModel() {
     private val _inputContent = MutableStateFlow("")
     val inputContent = _inputContent.asStateFlow()
@@ -38,7 +39,7 @@ class DialogueDetailViewModel(
     private val _modelInfo = MutableStateFlow<DialogueModelInfo?>(null)
     val modelInfo = _modelInfo.asStateFlow()
 
-    private val sessionController = DialogueSessionController(modelId)
+    private val sessionController: DialogueSessionController by get().inject { parametersOf(modelId) }
     val messages: StateFlow<List<DialogueMessage>> = sessionController.curSession
         .map { it?.messages?.map { msg -> msg as DialogueMessage }?.reversed() ?: emptyList() }
         .asState(viewModelScope, emptyList())
