@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ai.integrator.data.dialogue.model.DialogueSession
 import com.ai.integrator.im.identity.IMIdentity
-import com.ai.integrator.im.message.IMMessage
 
 @Entity(tableName = "dialogue_session",)
 data class DialogueSessionEntity(
@@ -20,13 +19,10 @@ data class DialogueSessionEntity(
     val lastActiveTime: Long
 )
 
-fun DialogueSessionEntity.toDialogueSession(
-    messages: MutableList<IMMessage<*>> = mutableListOf()
-): DialogueSession {
+fun DialogueSessionEntity.toDialogueSession(): DialogueSession {
     return DialogueSession(
         sessionId = sessionId,
         participants = participants,
-        messages = messages,
         lastActiveTime = lastActiveTime
     )
 }

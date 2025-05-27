@@ -1,9 +1,8 @@
 package com.ai.integrator.data.dialogue.database.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.ai.integrator.data.dialogue.database.entity.DialogueMessageEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -14,8 +13,8 @@ interface DialogueMessageDao {
         WHERE session_id = :sessionId
         ORDER BY timestamp
     """)
-    suspend fun getDialogueMessagesBySessionId(sessionId: String): List<DialogueMessageEntity>
+    fun getDialogueMessagesBySessionId(sessionId: String): Flow<List<DialogueMessageEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDialogueMessage(message: DialogueMessageEntity)
+    @Upsert
+    suspend fun upsertDialogueMessage(message: DialogueMessageEntity)
 }

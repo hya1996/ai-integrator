@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.koin.core.context.GlobalContext
 import org.koin.core.context.GlobalContext.get
 import org.koin.core.parameter.parametersOf
 import java.util.UUID
@@ -39,16 +38,15 @@ class DialogueDetailViewModel(
     private val _modelInfo = MutableStateFlow<DialogueModelInfo?>(null)
     val modelInfo = _modelInfo.asStateFlow()
 
-    private val sessionController: DialogueSessionController by get().inject { parametersOf(modelId) }
-    val messages: StateFlow<List<DialogueMessage>> = sessionController.curSession
-        .map { it?.messages?.map { msg -> msg as DialogueMessage }?.reversed() ?: emptyList() }
+    private val sessionController = get().get<DialogueSessionController> { parametersOf(modelId) }
+    val messages: StateFlow<List<DialogueMessage>> = sessionController.curMessages
+        .map { it.map { msg -> msg as DialogueMessage }.reversed() }
         .asState(viewModelScope, emptyList())
 
     init {
         initModelInfo()
-        sessionController.init()
         IMCenter.registerMessageHandler(DialogueMessageHandler.Key,
-            GlobalContext.get().get<DialogueMessageHandler> { parametersOf(viewModelScope) })
+            get().get<DialogueMessageHandler> { parametersOf(viewModelScope) })
     }
 
     private fun initModelInfo() = viewModelScope.launch {
@@ -74,7 +72,7 @@ class DialogueDetailViewModel(
             status = MessageStatus.SENDING
         )
         clearInputContent()
-        IMCenter.dispatchMessages(DialogueMessageHandler.Key, sessionController.curMessages + sendMsg)
+        IMCenter.dispatchMessages(DialogueMessageHandler.Key, sessionController.curMessages.value + sendMsg)
     }
 
     override fun onCleared() {

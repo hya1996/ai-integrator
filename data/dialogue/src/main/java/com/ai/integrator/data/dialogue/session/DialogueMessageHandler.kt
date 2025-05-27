@@ -47,7 +47,7 @@ class DialogueMessageHandler(
         }
 
         val lastMsg = messages.last()
-        dialogueDetailRepo.insertDialogueMessage(lastMsg)
+        dialogueDetailRepo.upsertDialogueMessage(lastMsg)
 
         val receiver = lastMsg.receiver
         if (receiver.type != IdentityType.AI) {
@@ -72,7 +72,7 @@ class DialogueMessageHandler(
             it.onSuccess { content ->
                 replyContent = replyContent.copy(text = replyContent.text + content)
                 replyMsg = replyMsg.copy(content = replyContent)
-                _receiveMessageNotify.publish(replyMsg)
+                dialogueDetailRepo.upsertDialogueMessage(replyMsg)
             }.onFailure { code, message ->
                 Log.e(TAG, "handleDialogueMessages fail code: $code, message: $message")
             }

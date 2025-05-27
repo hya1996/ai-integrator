@@ -12,6 +12,7 @@ import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.model.DialogueSession
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class DialogueDetailRepository(
     private val sessionDao: DialogueSessionDao,
@@ -19,26 +20,26 @@ class DialogueDetailRepository(
     private val dialogueModelRepo: DialogueModelRepository,
     private val dialogueDetailRemoteDS: DialogueDetailRemoteDataSource,
 ) {
-    suspend fun getDialogueSessionsByModelId(modelId: Long): List<DialogueSession> {
+    fun getDialogueSessionsByModelId(modelId: Long): Flow<List<DialogueSession>> {
         return sessionDao.getDialogueSessions()
-            .map { session -> session.toDialogueSession() }
+            .map { it.map { session -> session.toDialogueSession() } }
     }
 
     suspend fun getLatestDialogueSessionByModelId(modelId: Long): DialogueSession? {
         return sessionDao.getLatestDialogueSession()?.toDialogueSession()
     }
 
-    suspend fun insertDialogueSession(session: DialogueSession) {
-        sessionDao.insertDialogueSession(session.toDialogueSessionEntity())
+    suspend fun upsertDialogueSession(session: DialogueSession) {
+        sessionDao.upsertDialogueSession(session.toDialogueSessionEntity())
     }
 
-    suspend fun getDialogueMessagesBySessionId(sessionId: String): List<DialogueMessage> {
+    fun getDialogueMessagesBySessionId(sessionId: String): Flow<List<DialogueMessage>> {
         return messageDao.getDialogueMessagesBySessionId(sessionId)
-            .map { message -> message.toDialogueMessage() }
+            .map { it.map { message -> message.toDialogueMessage() } }
     }
 
-    suspend fun insertDialogueMessage(message: DialogueMessage) {
-        messageDao.insertDialogueMessage(message.toDialogueMessageEntity())
+    suspend fun upsertDialogueMessage(message: DialogueMessage) {
+        messageDao.upsertDialogueMessage(message.toDialogueMessageEntity())
     }
 
     suspend fun reqDialogueReply(
