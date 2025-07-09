@@ -1,6 +1,6 @@
 [versions]
 agp = "8.11.0"
-kotlin = "2.1.0"
+kotlin = "2.2.0"
 kotlinCoroutines = "1.10.1"
 kotlinSerializtion = "2.0.21"
 kotlinSerializtionJson = "1.8.0"
@@ -11,7 +11,7 @@ activityCompose = "1.9.2"
 androidxLifecycle = "2.8.5"
 androidxNavigation = "2.8.0"
 androidTools = "31.1.3"
-ksp = "2.1.0-1.0.29"
+ksp = "2.2.0-2.0.2"
 coil = "3.1.0"
 retrofit = "2.11.0"
 room = "2.7.1"
@@ -75,11 +75,12 @@ compose-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compil
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serializtion = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerializtion" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 
 # Plugins defined by this project
 convention-android-framework = { id = "convention.android.framework", version = "unspecified" }
