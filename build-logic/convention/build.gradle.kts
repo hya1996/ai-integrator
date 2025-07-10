@@ -31,6 +31,11 @@ gradlePlugin {
             implementationClass = "convention.plugin.AndroidFrameworkConventionPlugin"
         }
 
+        register("conventionKMPFramework") {
+            id = "convention.kmp.framework"
+            implementationClass = "convention.plugin.KMPFrameworkConventionPlugin"
+        }
+
         register("conventionAndroidApplication") {
             id = "convention.android.application"
             implementationClass = "convention.plugin.AndroidApplicationConventionPlugin"

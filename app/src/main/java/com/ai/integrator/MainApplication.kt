@@ -1,12 +1,12 @@
 package com.ai.integrator
 
-import com.ai.integrator.core.framework.application.BaseApplication
+import android.app.Application
 import com.ai.integrator.core.framework.util.AppUtils
 import com.ai.integrator.feature.dialogue.DialogueModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class MainApplication : BaseApplication() {
+class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 

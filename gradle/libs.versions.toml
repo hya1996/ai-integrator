@@ -84,6 +84,7 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 
 # Plugins defined by this project
 convention-android-framework = { id = "convention.android.framework", version = "unspecified" }
+convention-kmp-framework = { id = "convention.kmp.framework", version = "unspecified" }
 convention-android-application = { id = "convention.android.application", version = "unspecified" }
 convention-android-library = { id = "convention.android.library", version = "unspecified" }
 convention-kmp-library = { id = "convention.kmp.library", version = "unspecified" }
