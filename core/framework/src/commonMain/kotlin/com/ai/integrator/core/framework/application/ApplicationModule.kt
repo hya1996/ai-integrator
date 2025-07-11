@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalAtomicApi::class)
+
 package com.ai.integrator.core.framework.application
 
-import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.atomics.AtomicBoolean
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
 abstract class ApplicationModule {
     private val isInit = AtomicBoolean(false)

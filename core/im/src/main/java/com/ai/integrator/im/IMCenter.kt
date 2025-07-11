@@ -1,19 +1,17 @@
 package com.ai.integrator.im
 
+import com.ai.integrator.core.framework.coroutine.dispatcher.AppDispatcher
 import com.ai.integrator.core.framework.flow.MutableEventFlow
 import com.ai.integrator.core.framework.flow.asEventFlow
 import com.ai.integrator.core.framework.flow.collectIn
 import com.ai.integrator.core.framework.log.Log
-import com.ai.integrator.core.framework.thread.AppDefaultThreadFactory
 import com.ai.integrator.im.message.HandlerKey
 import com.ai.integrator.im.message.IMMessage
 import com.ai.integrator.im.message.IMMessageHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.asCoroutineDispatcher
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.Executors
 
 data class MessageNotifyInfo(
     val handlerKey: HandlerKey<*>,
@@ -26,8 +24,7 @@ object IMCenter {
     private val _messageNotify = MutableEventFlow<MessageNotifyInfo>()
     val messageNotify = _messageNotify.asEventFlow()
 
-    private val imDispatcher = Executors.newSingleThreadExecutor(
-        AppDefaultThreadFactory("app-im-thread", 3)).asCoroutineDispatcher()
+    private val imDispatcher = AppDispatcher.Background
     private val imScope: CoroutineScope = CoroutineScope(imDispatcher + SupervisorJob())
 
     private val messageHandlerMap = ConcurrentHashMap<HandlerKey<*>, IMMessageHandler>()

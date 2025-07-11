@@ -26,11 +26,6 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("conventionAndroidFramework") {
-            id = "convention.android.framework"
-            implementationClass = "convention.plugin.AndroidFrameworkConventionPlugin"
-        }
-
         register("conventionKMPFramework") {
             id = "convention.kmp.framework"
             implementationClass = "convention.plugin.KMPFrameworkConventionPlugin"

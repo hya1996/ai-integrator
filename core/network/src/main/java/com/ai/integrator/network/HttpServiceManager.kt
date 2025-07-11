@@ -1,10 +1,8 @@
 package com.ai.integrator.network
 
 import com.ai.integrator.core.framework.serialization.json.JsonHelper
-import com.ai.integrator.core.framework.thread.AppExecutor
 import com.ai.integrator.network.interceptor.HttpHeaderInterceptor
 import com.ai.integrator.network.interceptor.HttpLogInterceptor
-import okhttp3.Dispatcher
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -20,10 +18,6 @@ object HttpServiceManager {
         JsonHelper.json.asConverterFactory(contentType)
     }
 
-    private val dispatcher by lazy {
-        Dispatcher(AppExecutor.networkExecutor)
-    }
-
     fun <T> getServiceApi(apiCls: Class<T>, tag: String = TAG): T {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -35,7 +29,6 @@ object HttpServiceManager {
 
     private fun buildHttpClient(tag: String): OkHttpClient {
         return OkHttpClient.Builder()
-            .dispatcher(dispatcher)
             .addInterceptor(HttpHeaderInterceptor())
             .addInterceptor(HttpLogInterceptor(tag))
             .build()

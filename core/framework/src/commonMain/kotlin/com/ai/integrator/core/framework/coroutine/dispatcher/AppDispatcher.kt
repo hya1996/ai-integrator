@@ -1,9 +1,8 @@
 package com.ai.integrator.core.framework.coroutine.dispatcher
 
-import com.ai.integrator.core.framework.thread.AppExecutor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.IO
 
 object AppDispatcher {
     val Main: CoroutineDispatcher by lazy {
@@ -11,14 +10,14 @@ object AppDispatcher {
     }
 
     val IO: CoroutineDispatcher by lazy {
-        AppExecutor.ioExecutor.asCoroutineDispatcher()
+        Dispatchers.IO
     }
 
     val Network: CoroutineDispatcher by lazy {
-        AppExecutor.networkExecutor.asCoroutineDispatcher()
+        Dispatchers.IO
     }
 
     val Background: CoroutineDispatcher by lazy {
-        AppExecutor.backgroundExecutor.asCoroutineDispatcher()
+        Dispatchers.Default
     }
 }

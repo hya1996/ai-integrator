@@ -1,11 +1,9 @@
 plugins {
-    alias(libs.plugins.convention.android.framework)
+    alias(libs.plugins.convention.kmp.framework)
 }
 
-android {
-    namespace = "com.ai.integrator.core.framework"
-
-    dependencies {
-        implementation(libs.androidx.activity.compose)
+kotlin {
+    androidLibrary {
+        namespace = "com.ai.integrator.core.framework"
     }
 }

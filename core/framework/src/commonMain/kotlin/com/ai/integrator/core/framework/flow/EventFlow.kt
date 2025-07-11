@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalForInheritanceCoroutinesApi::class)
+@file:OptIn(ExperimentalForInheritanceCoroutinesApi::class, ExperimentalAtomicApi::class)
 
 package com.ai.integrator.core.framework.flow
 
@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.atomics.AtomicBoolean
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
 interface EventFlow<T> : SharedFlow<T>
 

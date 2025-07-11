@@ -1,8 +1,6 @@
 package com.ai.integrator.network.interceptor
 
 import com.ai.integrator.core.framework.log.Log
-import com.ai.integrator.core.framework.util.AppUtils
-import com.ai.integrator.core.network.R
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -18,8 +16,9 @@ class HttpHeaderInterceptor : Interceptor {
 
     private fun getAuthorization(): String {
         return try {
-            val inputStream = AppUtils.context.resources.openRawResource(R.raw.api_key)
-            inputStream.bufferedReader().readText().trim()
+            ""
+//            val inputStream = Application.resources.openRawResource(R.raw.api_key)
+//            inputStream.bufferedReader().readText().trim()
         } catch (e: Exception) {
             Log.e(TAG, "read api key error: ${e.message}")
             ""

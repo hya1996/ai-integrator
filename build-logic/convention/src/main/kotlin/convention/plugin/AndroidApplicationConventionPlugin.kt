@@ -2,7 +2,7 @@ package convention.plugin
 
 import Modules
 import com.android.build.api.dsl.ApplicationExtension
-import convention.Configs
+import Configs
 import convention.ext.configureKotlinAndroid
 import convention.ext.libs
 import org.gradle.api.Plugin

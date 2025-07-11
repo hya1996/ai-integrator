@@ -1,25 +1,25 @@
 package com.ai.integrator.core.framework.log
 
-import android.util.Log
+import co.touchlab.kermit.Logger
 
 object Log {
     fun v(tag: String, message: String) {
-        Log.v(tag, message)
+        Logger.v(tag) { message }
     }
 
     fun d(tag: String, message: String) {
-        Log.d(tag, message)
+        Logger.d(tag) { message }
     }
 
     fun i(tag: String, message: String) {
-        Log.i(tag, message)
+        Logger.i(tag) { message }
     }
 
     fun w(tag: String, message: String) {
-        Log.w(tag, message)
+        Logger.w(tag) { message }
     }
 
     fun e(tag: String, message: String) {
-        Log.e(tag, message)
+        Logger.e(tag) { message }
     }
 }
