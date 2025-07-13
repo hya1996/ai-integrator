@@ -43,3 +43,6 @@ google-services.json
 
 # Windows thumbnail db
 .DS_Store
+
+# Database
+**/schemas/

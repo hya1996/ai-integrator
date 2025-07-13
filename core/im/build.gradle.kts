@@ -1,13 +1,17 @@
 plugins {
-    alias(libs.plugins.convention.android.library)
+    alias(libs.plugins.convention.kmp.library)
 }
 
-android {
-    namespace = "com.ai.integrator.core.im"
-}
+kotlin {
+    androidLibrary {
+        namespace = "com.ai.integrator.core.im"
+    }
 
-dependencies {
-    implementation(libs.room.runtime)
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.room.runtime)
 
-    implementation(project(Modules.Core.user))
+            implementation(project(Modules.Core.user))
+        }
+    }
 }

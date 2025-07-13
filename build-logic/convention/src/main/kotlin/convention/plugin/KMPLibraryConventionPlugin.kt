@@ -23,6 +23,8 @@ class KMPLibraryConventionPlugin : Plugin<Project> {
                 sourceSets.commonMain.dependencies {
                     implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
                     implementation(libs.findBundle("common-base").get())
+
+                    implementation(project(Modules.Core.framework))
                 }
             }
         }

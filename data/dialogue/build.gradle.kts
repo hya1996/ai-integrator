@@ -1,12 +1,17 @@
 plugins {
-    alias(libs.plugins.convention.android.data)
+    alias(libs.plugins.convention.kmp.data)
+    alias(libs.plugins.convention.kmp.room)
 }
 
-android {
-    namespace = "com.ai.integrator.data.dialogue"
-}
+kotlin {
+    androidLibrary {
+        namespace = "com.ai.integrator.data.dialogue"
+    }
 
-dependencies {
-    implementation(project(Modules.Core.user))
-    api(project(Modules.Core.im))
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(Modules.Core.user))
+            api(project(Modules.Core.im))
+        }
+    }
 }

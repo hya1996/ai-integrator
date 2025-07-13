@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.ai.integrator.feature.dialogue.screen.detail
 
 import androidx.lifecycle.viewModelScope
@@ -23,6 +25,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext.get
 import org.koin.core.parameter.parametersOf
 import java.util.UUID
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class DialogueDetailViewModel(
     private val modelId: Long,
@@ -68,7 +72,7 @@ class DialogueDetailViewModel(
             sender = IMIdentity(myUid.uid, IdentityType.USER),
             receiver = IMIdentity(modelId, IdentityType.AI),
             content = DialogueMessageContent(DIALOGUE_ROLE_USER, _inputContent.value),
-            timestamp = System.currentTimeMillis(),
+            timestamp = Clock.System.now().toEpochMilliseconds(),
             status = MessageStatus.SENDING
         )
         clearInputContent()

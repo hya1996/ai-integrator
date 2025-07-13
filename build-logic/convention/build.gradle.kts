@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.ksp.gradle.plugin)
     compileOnly(libs.compose.gradle.plugin)
+    compileOnly(libs.androidx.room.gradle.plugin)
 }
 
 gradlePlugin {
@@ -61,9 +62,14 @@ gradlePlugin {
             implementationClass = "convention.plugin.AndroidFeatureConventionPlugin"
         }
 
-        register("conventionAndroidData") {
-            id = "convention.android.data"
-            implementationClass = "convention.plugin.AndroidDataConventionPlugin"
+        register("conventionKMPData") {
+            id = "convention.kmp.data"
+            implementationClass = "convention.plugin.KMPDataConventionPlugin"
+        }
+
+        register("conventionKMPRoom") {
+            id = "convention.kmp.room"
+            implementationClass = "convention.plugin.KMPRoomConventionPlugin"
         }
     }
 }

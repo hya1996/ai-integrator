@@ -1,12 +1,21 @@
 plugins {
-    alias(libs.plugins.convention.android.library)
+    alias(libs.plugins.convention.kmp.library)
+    alias(libs.plugins.ktorfit)
 }
 
-android {
-    namespace = "com.ai.integrator.core.network"
-}
+kotlin {
+    androidLibrary {
+        namespace = "com.ai.integrator.core.network"
+    }
 
-dependencies {
-    api(libs.retrofit)
-    api(libs.retrofit.converter.kotlinx.serialization)
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.ktorfit.lib)
+            implementation(libs.ktorfit.converters.call)
+            implementation(libs.ktorfit.converters.response)
+            implementation(libs.ktorfit.converters.flow)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+        }
+    }
 }

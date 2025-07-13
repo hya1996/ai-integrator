@@ -13,9 +13,12 @@ androidTools = "31.1.3"
 ksp = "2.2.0-2.0.2"
 kermit = "2.0.4"
 coil = "3.1.0"
-retrofit = "2.11.0"
+ktorfit = "2.6.1"
+ktor = "3.2.1"
 room = "2.7.2"
+sqlite = "2.5.2"
 koinBom = "4.1.0"
+roomGradlePlugin = "2.7.2"
 
 [libraries]
 # Kotlin
@@ -49,14 +52,17 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 
 # Network
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
-retrofit-converter-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit"}
+ktorfit-lib = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-lib", version.ref = "ktorfit" }
+ktorfit-converters-call = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-call", version.ref = "ktorfit" }
+ktorfit-converters-response = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-response", version.ref = "ktorfit" }
+ktorfit-converters-flow = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-flow", version.ref = "ktorfit" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 # Database
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
 
 # DI
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koinBom" }
@@ -76,6 +82,7 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 compose-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+androidx-room-gradle-plugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomGradlePlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -85,6 +92,8 @@ kotlin-serializtion = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+room = { id = "androidx.room", version.ref = "room" }
+ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 
 # Plugins defined by this project
 convention-kmp-framework = { id = "convention.kmp.framework", version = "unspecified" }
@@ -94,7 +103,8 @@ convention-kmp-library = { id = "convention.kmp.library", version = "unspecified
 convention-android-application-compose = { id = "convention.android.application.compose", version = "unspecified" }
 convention-android-library-compose = { id = "convention.android.library.compose", version = "unspecified" }
 convention-android-feature = { id = "convention.android.feature", version = "unspecified" }
-convention-android-data = { id = "convention.android.data", version = "unspecified" }
+convention-kmp-data = { id = "convention.kmp.data", version = "unspecified" }
+convention-kmp-room = { id = "convention.kmp.room", version = "unspecified" }
 
 [bundles]
 common-base = [
