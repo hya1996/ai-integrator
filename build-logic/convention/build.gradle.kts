@@ -47,6 +47,11 @@ gradlePlugin {
             implementationClass = "convention.plugin.KMPLibraryConventionPlugin"
         }
 
+        register("conventionKMPCompose") {
+            id = "convention.kmp.compose"
+            implementationClass = "convention.plugin.KMPComposeConventionPlugin"
+        }
+
         register("conventionAndroidApplicationCompose") {
             id = "convention.android.application.compose"
             implementationClass = "convention.plugin.AndroidApplicationComposeConventionPlugin"

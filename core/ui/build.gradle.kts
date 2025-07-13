@@ -1,8 +1,10 @@
 plugins {
-    alias(libs.plugins.convention.android.library)
-    alias(libs.plugins.convention.android.library.compose)
+    alias(libs.plugins.convention.kmp.library)
+    alias(libs.plugins.convention.kmp.compose)
 }
 
-android {
-    namespace = "com.ai.integrator.core.ui"
+kotlin {
+    androidLibrary {
+        namespace = "com.ai.integrator.core.ui"
+    }
 }

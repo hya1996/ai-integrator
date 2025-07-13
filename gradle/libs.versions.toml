@@ -6,6 +6,7 @@ kotlinSerializtion = "2.0.21"
 kotlinSerializtionJson = "1.8.0"
 coreKtx = "1.15.0"
 androidxLifecycle = "2.9.1"
+composeMultiplatform = "1.8.2"
 composeBom = "2024.10.01"
 activityCompose = "1.9.2"
 androidxNavigation = "2.8.0"
@@ -33,6 +34,13 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidxLifecycle" }
 
 # Compose
+compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "composeMultiplatform" }
+compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "composeMultiplatform" }
+compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "composeMultiplatform" }
+compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "composeMultiplatform" }
+compose-components-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "composeMultiplatform" }
+compose-components-ui-tooling-preview = { group = "org.jetbrains.compose.components", name = "components-ui-tooling-preview", version.ref = "composeMultiplatform" }
+
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
@@ -91,6 +99,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serializtion = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerializtion" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "room" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
@@ -105,6 +114,7 @@ convention-android-library-compose = { id = "convention.android.library.compose"
 convention-android-feature = { id = "convention.android.feature", version = "unspecified" }
 convention-kmp-data = { id = "convention.kmp.data", version = "unspecified" }
 convention-kmp-room = { id = "convention.kmp.room", version = "unspecified" }
+convention-kmp-compose = { id = "convention.kmp.compose", version = "unspecified" }
 
 [bundles]
 common-base = [
@@ -122,6 +132,15 @@ android-base = [
     "kotlin-coroutines-android",
 
     "koin-android"
+]
+
+compose-base = [
+    "compose-runtime",
+    "compose-foundation",
+    "compose-ui",
+    "compose-material3",
+    "compose-components-resources",
+    "compose-components-ui-tooling-preview"
 ]
 
 android-compose = [
