@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalTime::class)
+@file:OptIn(ExperimentalTime::class, ExperimentalUuidApi::class)
 
 package com.ai.integrator.feature.dialogue.screen.detail
 
@@ -22,11 +22,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.koin.core.context.GlobalContext.get
 import org.koin.core.parameter.parametersOf
-import java.util.UUID
+import org.koin.mp.KoinPlatform
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class DialogueDetailViewModel(
     private val modelId: Long,
@@ -42,7 +43,7 @@ class DialogueDetailViewModel(
     private val _modelInfo = MutableStateFlow<DialogueModelInfo?>(null)
     val modelInfo = _modelInfo.asStateFlow()
 
-    private val sessionController = get().get<DialogueSessionController> { parametersOf(modelId) }
+    private val sessionController = KoinPlatform.getKoin().get<DialogueSessionController> { parametersOf(modelId) }
     val messages: StateFlow<List<DialogueMessage>> = sessionController.curMessages
         .map { it.map { msg -> msg as DialogueMessage }.reversed() }
         .asState(viewModelScope, emptyList())
@@ -50,7 +51,7 @@ class DialogueDetailViewModel(
     init {
         initModelInfo()
         IMCenter.registerMessageHandler(DialogueMessageHandler.Key,
-            get().get<DialogueMessageHandler> { parametersOf(viewModelScope) })
+            KoinPlatform.getKoin().get<DialogueMessageHandler> { parametersOf(viewModelScope) })
     }
 
     private fun initModelInfo() = viewModelScope.launch {
@@ -67,7 +68,7 @@ class DialogueDetailViewModel(
 
     fun sendDialogueMessage() = viewModelScope.launch {
         val sendMsg = DialogueMessage(
-            messageId = UUID.randomUUID().toString(),
+            messageId = Uuid.random().toString(),
             sessionId = sessionController.curSessionId,
             sender = IMIdentity(myUid.uid, IdentityType.USER),
             receiver = IMIdentity(modelId, IdentityType.AI),

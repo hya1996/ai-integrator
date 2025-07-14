@@ -62,9 +62,9 @@ gradlePlugin {
             implementationClass = "convention.plugin.AndroidLibraryComposeConventionPlugin"
         }
 
-        register("conventionAndroidFeature") {
-            id = "convention.android.feature"
-            implementationClass = "convention.plugin.AndroidFeatureConventionPlugin"
+        register("conventionKMPFeature") {
+            id = "convention.kmp.feature"
+            implementationClass = "convention.plugin.KMPFeatureConventionPlugin"
         }
 
         register("conventionKMPData") {

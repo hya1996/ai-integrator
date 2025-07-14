@@ -5,9 +5,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.ai.integrator.core.ui.theme.AITheme
 import com.ai.integrator.data.dialogue.model.DialogueModelInfo
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DialogueHomeModelList(

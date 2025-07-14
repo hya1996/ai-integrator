@@ -16,6 +16,8 @@ fun KotlinMultiplatformExtension.configureMultiplatform() {
                 jvmTarget.set(JvmTarget.JVM_17)
             }
         }
+
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
 
     listOf(
