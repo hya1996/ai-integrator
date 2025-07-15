@@ -1,7 +1,7 @@
 package com.ai.integrator
 
 import android.app.Application
-import com.ai.integrator.feature.dialogue.DialogueModule
+import com.ai.integrator.app.initApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -10,16 +10,12 @@ class MainApplication : Application() {
         super.onCreate()
 
         initKoin()
-        initApplicationModules()
+        initApp()
     }
 
     private fun initKoin() {
         startKoin {
             androidContext(this@MainApplication)
         }
-    }
-
-    private fun initApplicationModules() {
-        DialogueModule().init()
     }
 }

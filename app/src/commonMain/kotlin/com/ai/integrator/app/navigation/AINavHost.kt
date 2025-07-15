@@ -1,4 +1,4 @@
-package com.ai.integrator.navigation
+package com.ai.integrator.app.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition

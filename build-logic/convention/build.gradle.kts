@@ -32,16 +32,6 @@ gradlePlugin {
             implementationClass = "convention.plugin.KMPFrameworkConventionPlugin"
         }
 
-        register("conventionAndroidApplication") {
-            id = "convention.android.application"
-            implementationClass = "convention.plugin.AndroidApplicationConventionPlugin"
-        }
-
-        register("conventionAndroidLibrary") {
-            id = "convention.android.library"
-            implementationClass = "convention.plugin.AndroidLibraryConventionPlugin"
-        }
-
         register("conventionKMPLibrary") {
             id = "convention.kmp.library"
             implementationClass = "convention.plugin.KMPLibraryConventionPlugin"
@@ -50,16 +40,6 @@ gradlePlugin {
         register("conventionKMPCompose") {
             id = "convention.kmp.compose"
             implementationClass = "convention.plugin.KMPComposeConventionPlugin"
-        }
-
-        register("conventionAndroidApplicationCompose") {
-            id = "convention.android.application.compose"
-            implementationClass = "convention.plugin.AndroidApplicationComposeConventionPlugin"
-        }
-
-        register("conventionAndroidLibraryCompose") {
-            id = "convention.android.library.compose"
-            implementationClass = "convention.plugin.AndroidLibraryComposeConventionPlugin"
         }
 
         register("conventionKMPFeature") {

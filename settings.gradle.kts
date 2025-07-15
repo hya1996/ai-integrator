@@ -24,6 +24,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "ai-integrator"
 
+include(":platform:androidApp")
+
 include(":app")
 
 include(":core:framework")

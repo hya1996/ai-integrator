@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.ai.integrator.core.ui.theme.AITheme
+import com.ai.integrator.app.AIApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +20,7 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            AITheme {
-                AIApp()
-            }
+            AIApp()
         }
     }
 }

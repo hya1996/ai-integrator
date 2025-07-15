@@ -1,43 +1,18 @@
 plugins {
-    alias(libs.plugins.convention.android.application)
-    alias(libs.plugins.convention.android.application.compose)
+    alias(libs.plugins.convention.kmp.library)
+    alias(libs.plugins.convention.kmp.compose)
 }
 
-android {
-    namespace = "com.ai.integrator"
-
-    defaultConfig {
-        applicationId = "com.ai.integrator"
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+kotlin {
+    androidLibrary {
+        namespace = "com.ai.integrator.app"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(Modules.Core.ui))
+
+            implementation(project(Modules.Feature.dialogue))
         }
     }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-}
-
-dependencies {
-    implementation(libs.androidx.activity.compose)
-
-    implementation(project(Modules.Core.ui))
-
-    implementation(project(Modules.Feature.dialogue))
 }

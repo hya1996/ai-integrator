@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">ai-integrator</string>
-    <string name="app_nav_bottom_bar_item_dialogue">对话</string>
-    <string name="app_nav_bottom_bar_item_image">图片</string>
-    <string name="app_nav_bottom_bar_item_music">音乐</string>
-    <string name="app_nav_bottom_bar_item_video">视频</string>
-</resources>
