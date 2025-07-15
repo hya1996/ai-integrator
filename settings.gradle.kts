@@ -25,6 +25,7 @@ dependencyResolutionManagement {
 rootProject.name = "ai-integrator"
 
 include(":platform:androidApp")
+include(":platform:desktopApp")
 
 include(":app")
 
@@ -37,3 +38,5 @@ include(":core:im")
 include(":feature:dialogue")
 
 include(":data:dialogue")
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

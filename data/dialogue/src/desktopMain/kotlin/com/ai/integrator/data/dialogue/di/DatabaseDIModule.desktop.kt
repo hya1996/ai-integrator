@@ -1,22 +1,20 @@
 package com.ai.integrator.data.dialogue.di
 
-import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ai.integrator.data.dialogue.database.DialogueDatabase
 import org.koin.dsl.module
+import java.io.File
 
 internal actual val platformDIModule = module {
     single<RoomDatabase.Builder<DialogueDatabase>> {
-        getDialogueDatabaseBuilder(get())
+        getDialogueDatabaseBuilder()
     }
 }
 
-private fun getDialogueDatabaseBuilder(ctx: Context): RoomDatabase.Builder<DialogueDatabase> {
-    val appContext = ctx.applicationContext
-    val dbFile = appContext.getDatabasePath("dialogue-database.db")
+private fun getDialogueDatabaseBuilder(): RoomDatabase.Builder<DialogueDatabase> {
+    val dbFile = File(System.getProperty("java.io.tmpdir"), "dialogue-database.db")
     return Room.databaseBuilder<DialogueDatabase>(
-        context = appContext,
         name = dbFile.absolutePath
     )
 }

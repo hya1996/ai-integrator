@@ -15,12 +15,13 @@ kotlin {
 android {
     namespace = "com.ai.integrator"
 
+    compileSdk = 35
+
     defaultConfig {
         applicationId = "com.ai.integrator"
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
-        compileSdk = 35
         targetSdk = 35
         minSdk = 24
 

@@ -10,13 +10,16 @@ import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
 import com.ai.integrator.data.dialogue.repository.DialogueModelRepository
 import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
 import com.ai.integrator.data.dialogue.session.DialogueSessionController
-import org.koin.core.context.loadKoinModules
+import kotlinx.coroutines.CoroutineScope
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
+internal expect val platformDIModule: Module
+
 val dialogueDataDIModule = module {
-    // todo opt
-    loadKoinModules(databaseModule())
+    includes(platformDIModule)
+
     single<DialogueDatabase> { getRoomDatabase(get()) }
     single<DialogueMessageDao> { get<DialogueDatabase>().dialogueMessageDao() }
     single<DialogueSessionDao> { get<DialogueDatabase>().dialogueSessionDao() }
@@ -25,6 +28,6 @@ val dialogueDataDIModule = module {
     singleOf(::DialogueModelRepository)
     singleOf(::DialogueDetailRepository)
 
-    factory { params -> DialogueSessionController(params.get(), get()) }
-    factory { params -> DialogueMessageHandler(params.get(), get()) }
+    factory { params -> DialogueSessionController(params.get<Long>(), get()) }
+    factory { params -> DialogueMessageHandler(params.get<CoroutineScope>(), get()) }
 }
