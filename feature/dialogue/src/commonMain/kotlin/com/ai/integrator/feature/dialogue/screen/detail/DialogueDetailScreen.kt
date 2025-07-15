@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ai.integrator.core.ui.ime.rememberImeVisibility
 import com.ai.integrator.feature.dialogue.screen.detail.component.bottombar.DialogueDetailBottomBar
 import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.DialogueDetailMessageList
@@ -35,10 +35,11 @@ fun DialogueDetailScreen(
 ) {
     val localFocusManger = LocalFocusManager.current
 
-    val modelInfo by viewModel.modelInfo.collectAsStateWithLifecycle()
-    val inputContent by viewModel.inputContent.collectAsStateWithLifecycle()
-    val enableSend by viewModel.enableSend.collectAsStateWithLifecycle()
-    val messages by viewModel.messages.collectAsStateWithLifecycle()
+    // todo opt collectAsState
+    val modelInfo by viewModel.modelInfo.collectAsState()
+    val inputContent by viewModel.inputContent.collectAsState()
+    val enableSend by viewModel.enableSend.collectAsState()
+    val messages by viewModel.messages.collectAsState()
 
     val isImeVisible by rememberImeVisibility()
     val scope = rememberCoroutineScope()

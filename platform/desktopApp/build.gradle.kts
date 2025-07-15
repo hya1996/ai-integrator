@@ -24,6 +24,7 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.compose.components.resources)
+            implementation(libs.kotlin.coroutines.swing)
 
             implementation(project(":app"))
         }
