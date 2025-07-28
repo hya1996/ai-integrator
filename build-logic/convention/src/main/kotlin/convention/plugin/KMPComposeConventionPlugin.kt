@@ -18,6 +18,7 @@ class KMPComposeConventionPlugin : Plugin<Project> {
                 sourceSets.commonMain.dependencies {
                     implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
                     implementation(libs.findBundle("compose-base").get())
+                    implementation(libs.findLibrary("lifecycle-runtime-compose").get())
                 }
             }
         }
