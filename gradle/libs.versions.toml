@@ -14,6 +14,7 @@ kermit = "2.0.4"
 coil = "3.2.0"
 ktorfit = "2.6.1"
 ktor = "3.2.1"
+datastore = "1.1.7"
 room = "2.7.2"
 sqlite = "2.5.2"
 koinBom = "4.1.0"
@@ -50,6 +51,10 @@ ktorfit-converters-response = { group = "de.jensklingenberg.ktorfit", name = "kt
 ktorfit-converters-flow = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-flow", version.ref = "ktorfit" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+# Preferences
+datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # Database
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

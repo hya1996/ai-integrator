@@ -1,6 +1,7 @@
 object Modules {
     object Core {
         val framework = core("framework")
+        val datastore = core("datastore")
         val network = core("network")
         val ui = core("ui")
         val user = core("user")

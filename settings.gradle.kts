@@ -30,6 +30,7 @@ include(":platform:desktopApp")
 include(":app")
 
 include(":core:framework")
+include(":core:datastore")
 include(":core:network")
 include(":core:ui")
 include(":core:user")
