@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ai.integrator.feature.dialogue.dialog.apikey.ApiKeyInputDialog
 import com.ai.integrator.feature.dialogue.screen.home.component.modellist.DialogueHomeModelList
 import com.ai.integrator.feature.dialogue.screen.home.component.topbar.DialogueHomeTopBar
 import org.koin.compose.viewmodel.koinViewModel
@@ -18,7 +19,14 @@ fun DialogueHomeScreen(
     modifier: Modifier = Modifier,
     viewModel: DialogueHomeViewModel = koinViewModel(),
 ) {
+    val needInputApiKey by viewModel.needInputApiKey.collectAsStateWithLifecycle()
     val modelList by viewModel.modelList.collectAsStateWithLifecycle()
+
+    if (needInputApiKey) {
+        ApiKeyInputDialog(
+            onConfirm = { viewModel.updateApiKey(it) }
+        )
+    }
 
     Column(
         modifier = modifier

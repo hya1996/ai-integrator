@@ -11,7 +11,15 @@ import kotlinx.coroutines.flow.map
 class DialogueHomeViewModel(
     private val dialogueModelRepo: DialogueModelRepository
 ) : BaseViewModel() {
+    val needInputApiKey: StateFlow<Boolean> = dialogueModelRepo.apiKeyFlow.map {
+        it.isEmpty()
+    }.asState(viewModelScope, false)
+
     val modelList: StateFlow<List<DialogueHomeModelItemData>> = dialogueModelRepo.getModelList()
         .map { it.map { modelInfo -> DialogueHomeModelItemData(modelInfo) } }
         .asState(viewModelScope, emptyList())
+
+    fun updateApiKey(apiKey: String) {
+        dialogueModelRepo.updateApiKey(apiKey)
+    }
 }

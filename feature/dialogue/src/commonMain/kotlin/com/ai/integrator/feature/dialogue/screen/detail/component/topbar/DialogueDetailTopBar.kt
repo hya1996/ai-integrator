@@ -88,7 +88,7 @@ fun DialogueDetailTopBar(
 
 @Preview
 @Composable
-fun DialogueDetailTopBar() {
+fun DialogueDetailTopBarPreview() {
     AITheme {
         DialogueDetailTopBar(
             title = "DeepSeek",
