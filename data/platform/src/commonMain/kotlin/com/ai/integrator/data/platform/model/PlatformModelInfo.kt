@@ -1,9 +1,9 @@
-package com.ai.integrator.data.dialogue.model
+package com.ai.integrator.data.platform.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DialogueModelInfo(
+data class PlatformModelInfo(
     val modelId: Long,
     val simpleName: String,
     val modelName: String,

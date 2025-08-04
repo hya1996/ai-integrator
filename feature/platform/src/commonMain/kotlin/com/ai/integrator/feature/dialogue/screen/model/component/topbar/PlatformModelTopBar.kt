@@ -1,7 +1,7 @@
-package com.ai.integrator.feature.dialogue.screen.home.component.topbar
+package com.ai.integrator.feature.dialogue.screen.model.component.topbar
 
-import ai_integrator.feature.dialogue.generated.resources.Res
-import ai_integrator.feature.dialogue.generated.resources.feature_dialogue_home_title
+import ai_integrator.feature.platform.generated.resources.Res
+import ai_integrator.feature.platform.generated.resources.feature_platform_model_title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun DialogueHomeTopBar(
+fun PlatformModelTopBar(
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -32,7 +32,7 @@ fun DialogueHomeTopBar(
             .background(colorScheme.primaryContainer),
     ) {
         Text(
-            text = stringResource(Res.string.feature_dialogue_home_title),
+            text = stringResource(Res.string.feature_platform_model_title),
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = colorScheme.primary
@@ -42,8 +42,8 @@ fun DialogueHomeTopBar(
 
 @Preview
 @Composable
-fun DialogueHomeTopBarPreview() {
+fun PlatformModelTopBarPreview() {
     AITheme {
-        DialogueHomeTopBar()
+        PlatformModelTopBar()
     }
 }

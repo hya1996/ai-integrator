@@ -11,13 +11,14 @@ import com.ai.integrator.data.dialogue.datasource.DialogueDetailRemoteDataSource
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.model.DialogueSession
+import com.ai.integrator.data.platform.repository.PlatformModelRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class DialogueDetailRepository(
     private val sessionDao: DialogueSessionDao,
     private val messageDao: DialogueMessageDao,
-    private val dialogueModelRepo: DialogueModelRepository,
+    private val platformModelRepo: PlatformModelRepository,
     private val dialogueDetailRemoteDS: DialogueDetailRemoteDataSource,
 ) {
     fun getDialogueSessionsByModelId(modelId: Long): Flow<List<DialogueSession>> {
@@ -46,7 +47,7 @@ class DialogueDetailRepository(
         modelId: Long,
         messages: List<DialogueMessageContent>
     ): Flow<ResultOrIntError<String>> {
-        val modelName = dialogueModelRepo.getModelById(modelId)?.modelName ?: ""
+        val modelName = platformModelRepo.getModelById(modelId)?.modelName ?: ""
         return dialogueDetailRemoteDS.reqDialogueReply(modelName, messages)
     }
 }

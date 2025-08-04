@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_platform_model_title">对话模型</string>
+
+    <string name="feature_platform_api_key_title">请输入API Key</string>
+    <string name="feature_platform_api_key_confirm">确认</string>
+</resources>

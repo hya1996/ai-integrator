@@ -13,6 +13,7 @@ kotlin {
             implementation(project(Modules.Core.datastore))
             implementation(project(Modules.Core.ui))
 
+            implementation(project(Modules.Feature.platform))
             implementation(project(Modules.Feature.dialogue))
         }
     }

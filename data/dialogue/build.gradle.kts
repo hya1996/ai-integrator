@@ -13,6 +13,8 @@ kotlin {
             implementation(project(Modules.Core.datastore))
             implementation(project(Modules.Core.user))
             api(project(Modules.Core.im))
+
+            implementation(project(Modules.Data.platform))
         }
     }
 }

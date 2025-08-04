@@ -1,4 +1,4 @@
-package com.ai.integrator.feature.dialogue.screen.home.component.modellist
+package com.ai.integrator.feature.dialogue.screen.model.component.modellist
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -6,12 +6,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ai.integrator.core.ui.theme.AITheme
-import com.ai.integrator.data.dialogue.model.DialogueModelInfo
+import com.ai.integrator.data.platform.model.PlatformModelInfo
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun DialogueHomeModelList(
-    modelList: List<DialogueHomeModelItemData>,
+fun PlatformModelList(
+    modelList: List<PlatformModelItemData>,
     onModelItemClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -20,7 +20,7 @@ fun DialogueHomeModelList(
             .fillMaxWidth()
     ) {
         items(modelList) {
-            DialogueHomeModeItem(
+            PlatformModeItem(
                 itemData = it,
                 onClick = onModelItemClick,
             )
@@ -30,10 +30,10 @@ fun DialogueHomeModelList(
 
 @Preview
 @Composable
-fun DialogueHomeModelListPreview() {
+fun PlatformModelListPreview() {
     val listData = listOf(
-        DialogueHomeModelItemData(
-            modelInfo = DialogueModelInfo(
+        PlatformModelItemData(
+            modelInfo = PlatformModelInfo(
                 modelId = 1000L,
                 simpleName = "DeepSeek",
                 modelName = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
@@ -44,7 +44,7 @@ fun DialogueHomeModelListPreview() {
     )
 
     AITheme {
-        DialogueHomeModelList(
+        PlatformModelList(
             modelList = listData,
             onModelItemClick = {},
         )

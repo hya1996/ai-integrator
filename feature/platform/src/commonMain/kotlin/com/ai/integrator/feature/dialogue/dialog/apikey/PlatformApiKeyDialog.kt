@@ -1,8 +1,8 @@
 package com.ai.integrator.feature.dialogue.dialog.apikey
 
-import ai_integrator.feature.dialogue.generated.resources.Res
-import ai_integrator.feature.dialogue.generated.resources.feature_dialogue_api_key_input_confirm
-import ai_integrator.feature.dialogue.generated.resources.feature_dialogue_api_key_input_title
+import ai_integrator.feature.platform.generated.resources.Res
+import ai_integrator.feature.platform.generated.resources.feature_platform_api_key_confirm
+import ai_integrator.feature.platform.generated.resources.feature_platform_api_key_title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -36,7 +36,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ApiKeyInputDialog(
+fun PlatformApiKeyDialog(
     onConfirm: (String) -> Unit
 ) {
     var inputApiKey by remember { mutableStateOf("") }
@@ -63,7 +63,7 @@ fun ApiKeyInputDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(Res.string.feature_dialogue_api_key_input_title),
+                    text = stringResource(Res.string.feature_platform_api_key_title),
                     color = colorScheme.primary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
@@ -101,7 +101,7 @@ fun ApiKeyInputDialog(
                         )
                 ) {
                     Text(
-                        text = stringResource(Res.string.feature_dialogue_api_key_input_confirm),
+                        text = stringResource(Res.string.feature_platform_api_key_confirm),
                         color = Color.White,
                         fontSize = 16.sp
                     )
@@ -113,9 +113,9 @@ fun ApiKeyInputDialog(
 
 @Preview
 @Composable
-fun ApiKeyInputDialogPreview() {
+fun PlatformApiKeyDialogPreview() {
     AITheme {
-        ApiKeyInputDialog(
+        PlatformApiKeyDialog(
             onConfirm = {}
         )
     }

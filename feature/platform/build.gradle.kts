@@ -4,15 +4,12 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "com.ai.integrator.feature.dialogue"
+        namespace = "com.ai.integrator.feature.platform"
     }
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Modules.Core.user))
-
             implementation(project(Modules.Data.platform))
-            implementation(project(Modules.Data.dialogue))
         }
     }
 }

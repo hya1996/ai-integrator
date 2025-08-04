@@ -1,4 +1,4 @@
-package com.ai.integrator.feature.dialogue.screen.home.component.modellist
+package com.ai.integrator.feature.dialogue.screen.model.component.modellist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,15 +22,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.ai.integrator.data.dialogue.model.DialogueModelInfo
+import com.ai.integrator.data.platform.model.PlatformModelInfo
 
-data class DialogueHomeModelItemData(
-    val modelInfo: DialogueModelInfo,
+data class PlatformModelItemData(
+    val modelInfo: PlatformModelInfo,
 )
 
 @Composable
-fun DialogueHomeModeItem(
-    itemData: DialogueHomeModelItemData,
+fun PlatformModeItem(
+    itemData: PlatformModelItemData,
     onClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
