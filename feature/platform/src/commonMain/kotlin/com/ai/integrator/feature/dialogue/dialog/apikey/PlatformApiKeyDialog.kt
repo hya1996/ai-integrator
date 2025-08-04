@@ -2,6 +2,7 @@ package com.ai.integrator.feature.dialogue.dialog.apikey
 
 import ai_integrator.feature.platform.generated.resources.Res
 import ai_integrator.feature.platform.generated.resources.feature_platform_api_key_confirm
+import ai_integrator.feature.platform.generated.resources.feature_platform_api_key_error_hint
 import ai_integrator.feature.platform.generated.resources.feature_platform_api_key_title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,14 +32,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ai.integrator.core.ui.theme.AITheme
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun PlatformApiKeyDialog(
-    onConfirm: (String) -> Unit
+    viewModel: PlatformApiKeyViewModel = koinViewModel()
 ) {
+    val showErrorHint by viewModel.showErrorHint.collectAsStateWithLifecycle()
+
     var inputApiKey by remember { mutableStateOf("") }
 
     Dialog(
@@ -91,7 +96,7 @@ fun PlatformApiKeyDialog(
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 Button(
-                    onClick = { onConfirm(inputApiKey) },
+                    onClick = { viewModel.checkApiKey(inputApiKey) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(36.dp)
@@ -106,6 +111,14 @@ fun PlatformApiKeyDialog(
                         fontSize = 16.sp
                     )
                 }
+                if (showErrorHint) {
+                    Text(
+                        text = stringResource(Res.string.feature_platform_api_key_error_hint),
+                        color = Color.Red,
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(top = 24.dp)
+                    )
+                }
             }
         }
     }
@@ -115,8 +128,6 @@ fun PlatformApiKeyDialog(
 @Composable
 fun PlatformApiKeyDialogPreview() {
     AITheme {
-        PlatformApiKeyDialog(
-            onConfirm = {}
-        )
+        PlatformApiKeyDialog()
     }
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class BasePref(
     protected val dataStore: DataStore<Preferences>,
@@ -27,9 +28,15 @@ abstract class BasePref(
         return dataStore.data.map { preferences -> preferences[this] }.first()
     }
 
-    protected fun <T> Preferences.Key<T>.set(value: T) {
-        prefScope.launch {
+    protected suspend fun <T> Preferences.Key<T>.set(value: T) {
+        withContext(AppDispatcher.IO) {
             dataStore.edit { preferences -> preferences[this@set] = value }
+        }
+    }
+
+    protected fun <T> Preferences.Key<T>.setAsync(value: T) {
+        prefScope.launch {
+            dataStore.edit { preferences -> preferences[this@setAsync] = value }
         }
     }
 }

@@ -23,9 +23,7 @@ fun PlatformModelScreen(
     val modelList by viewModel.modelList.collectAsStateWithLifecycle()
 
     if (needInputApiKey) {
-        PlatformApiKeyDialog(
-            onConfirm = { viewModel.updateApiKey(it) }
-        )
+        PlatformApiKeyDialog()
     }
 
     Column(
