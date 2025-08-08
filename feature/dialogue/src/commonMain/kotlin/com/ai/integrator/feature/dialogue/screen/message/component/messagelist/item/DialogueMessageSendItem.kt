@@ -1,4 +1,4 @@
-package com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.item
+package com.ai.integrator.feature.dialogue.screen.message.component.messagelist.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

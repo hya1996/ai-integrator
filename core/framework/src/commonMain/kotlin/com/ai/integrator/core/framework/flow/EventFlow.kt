@@ -38,7 +38,7 @@ private class LazyEventFlowWrapper<T>(
     private val isCollectedSource = AtomicBoolean(false)
 
     override suspend fun collect(collector: FlowCollector<T>): Nothing {
-        if (isCollectedSource.compareAndSet(false, true)) {
+        if (isCollectedSource.compareAndSet(expectedValue = false, newValue = true)) {
             source.collectIn(scope) {
                 eventFlow.publish(it)
             }

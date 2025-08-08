@@ -4,27 +4,27 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.ai.integrator.feature.dialogue.screen.detail.DialogueDetailScreen
+import com.ai.integrator.feature.dialogue.screen.home.DialogueHomeScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
 data object DialogueRoute
 
 @Serializable
-data class DialogueDetailRoute(
+data class DialogueHomeRoute(
     val modelId: Long,
 )
 
-fun NavController.navigateToDialogueDetail(modelId: Long) {
-    navigate(route = DialogueDetailRoute(modelId))
+fun NavController.navigateToDialogueHome(modelId: Long) {
+    navigate(route = DialogueHomeRoute(modelId))
 }
 
 fun NavGraphBuilder.dialogueNavGraph(
     onBackClick: () -> Unit
 ) {
-    composable<DialogueDetailRoute> {
-        val route: DialogueDetailRoute = it.toRoute()
-        DialogueDetailScreen(
+    composable<DialogueHomeRoute> {
+        val route: DialogueHomeRoute = it.toRoute()
+        DialogueHomeScreen(
             modelId = route.modelId,
             onBackClick = onBackClick,
         )

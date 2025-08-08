@@ -1,4 +1,4 @@
-package com.ai.integrator.feature.dialogue.screen.detail.component.bottombar
+package com.ai.integrator.feature.dialogue.screen.message.component.bottombar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +30,7 @@ import com.ai.integrator.core.ui.theme.AITheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun DialogueDetailBottomBar(
+fun DialogueMessageBottomBar(
     inputContent: String,
     onInputChange: (String) -> Unit,
     onInputFocusChange: (Boolean) -> Unit,
@@ -55,7 +55,7 @@ fun DialogueDetailBottomBar(
                 .padding(10.dp),
             horizontalArrangement = Arrangement.Start
         ) {
-            DialogueDetailInputField(
+            DialogueMessageInputField(
                 inputContent = inputContent,
                 onInputChange = onInputChange,
                 onInputFocusChange = onInputFocusChange,
@@ -63,7 +63,7 @@ fun DialogueDetailBottomBar(
                     .weight(1f)
                     .align(Alignment.CenterVertically)
             )
-            DialogueDetailSendButton(
+            DialogueMessageSendButton(
                 enableSend = enableSend,
                 onSendClick = onSendClick,
                 modifier = Modifier.align(Alignment.Bottom)
@@ -73,7 +73,7 @@ fun DialogueDetailBottomBar(
 }
 
 @Composable
-fun DialogueDetailInputField(
+fun DialogueMessageInputField(
     inputContent: String,
     onInputChange: (String) -> Unit,
     onInputFocusChange: (Boolean) -> Unit,
@@ -108,7 +108,7 @@ fun DialogueDetailInputField(
 }
 
 @Composable
-fun DialogueDetailSendButton(
+fun DialogueMessageSendButton(
     enableSend: Boolean,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -138,9 +138,9 @@ fun DialogueDetailSendButton(
 
 @Preview
 @Composable
-fun DialogueDetailBottomBarPreview() {
+fun DialogueMessageBottomBarPreview() {
     AITheme {
-        DialogueDetailBottomBar(
+        DialogueMessageBottomBar(
             inputContent = "这是一段消息",
             onInputChange = {},
             onInputFocusChange = {},

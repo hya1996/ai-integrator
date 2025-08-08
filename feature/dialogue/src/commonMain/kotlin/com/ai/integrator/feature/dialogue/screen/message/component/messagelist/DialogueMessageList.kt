@@ -1,4 +1,4 @@
-package com.ai.integrator.feature.dialogue.screen.detail.component.messagelist
+package com.ai.integrator.feature.dialogue.screen.message.component.messagelist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,12 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ai.integrator.data.dialogue.model.DialogueMessage
-import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.item.DialogueMessageReceiveItem
-import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.item.DialogueMessageSendItem
+import com.ai.integrator.feature.dialogue.screen.message.component.messagelist.item.DialogueMessageReceiveItem
+import com.ai.integrator.feature.dialogue.screen.message.component.messagelist.item.DialogueMessageSendItem
 import com.ai.integrator.im.message.isSentByMe
 
 @Composable
-fun DialogueDetailMessageList(
+fun DialogueMessageList(
     messages: List<DialogueMessage>,
     listState: LazyListState,
     modifier: Modifier = Modifier

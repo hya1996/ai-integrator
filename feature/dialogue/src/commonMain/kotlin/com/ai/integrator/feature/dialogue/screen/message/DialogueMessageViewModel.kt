@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalTime::class, ExperimentalUuidApi::class)
 
-package com.ai.integrator.feature.dialogue.screen.detail
+package com.ai.integrator.feature.dialogue.screen.message
 
 import androidx.lifecycle.viewModelScope
 import com.ai.integrator.core.framework.flow.asState
@@ -29,7 +29,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class DialogueDetailViewModel(
+class DialogueMessageViewModel(
     private val modelId: Long,
     private val platformModelRepo: PlatformModelRepository
 ) : BaseViewModel() {
@@ -85,7 +85,7 @@ class DialogueDetailViewModel(
         IMCenter.unregisterMessageHandler(DialogueMessageHandler.Key)
     }
 
-    companion object {
+    companion object Companion {
         private const val TAG = "DialogueDetailViewModel"
     }
 }

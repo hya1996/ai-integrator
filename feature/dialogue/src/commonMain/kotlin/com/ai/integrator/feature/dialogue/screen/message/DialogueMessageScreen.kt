@@ -1,4 +1,4 @@
-package com.ai.integrator.feature.dialogue.screen.detail
+package com.ai.integrator.feature.dialogue.screen.message
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -19,19 +19,20 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ai.integrator.core.ui.ime.rememberImeVisibility
-import com.ai.integrator.feature.dialogue.screen.detail.component.bottombar.DialogueDetailBottomBar
-import com.ai.integrator.feature.dialogue.screen.detail.component.messagelist.DialogueDetailMessageList
-import com.ai.integrator.feature.dialogue.screen.detail.component.topbar.DialogueDetailTopBar
+import com.ai.integrator.feature.dialogue.screen.message.component.bottombar.DialogueMessageBottomBar
+import com.ai.integrator.feature.dialogue.screen.message.component.messagelist.DialogueMessageList
+import com.ai.integrator.feature.dialogue.screen.message.component.topbar.DialogueMessageTopBar
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun DialogueDetailScreen(
+fun DialogueMessageScreen(
     modelId: Long,
     onBackClick: () -> Unit,
+    onSessionClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DialogueDetailViewModel = koinViewModel { parametersOf(modelId) }
+    viewModel: DialogueMessageViewModel = koinViewModel { parametersOf(modelId) }
 ) {
     val localFocusManger = LocalFocusManager.current
 
@@ -58,12 +59,13 @@ fun DialogueDetailScreen(
                     .fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                DialogueDetailTopBar(
+                DialogueMessageTopBar(
                     title = modelInfo?.simpleName ?: "",
                     subtitle = modelInfo?.intro ?: "",
                     onBackClick = onBackClick,
+                    onSessionClick = onSessionClick
                 )
-                DialogueDetailMessageList(
+                DialogueMessageList(
                     messages = messages,
                     listState = msgListState,
                     modifier = Modifier
@@ -86,7 +88,7 @@ fun DialogueDetailScreen(
                 )
             }
         }
-        DialogueDetailBottomBar(
+        DialogueMessageBottomBar(
             inputContent = inputContent,
             onInputChange = { viewModel.updateInputContent(it) },
             onInputFocusChange = { isFocused ->
