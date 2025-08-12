@@ -87,7 +87,7 @@ class DialogueSessionController(
         }
     }
 
-    private fun createSession() {
+    fun createSession() {
         val session =  DialogueSession(
             sessionId = Uuid.random().toString(),
             participants = listOf(
@@ -97,10 +97,15 @@ class DialogueSessionController(
         )
         sessionScope.launch {
             dialogueSessionRepo.upsertDialogueSession(session)
+            selectedSessionId.value = session.sessionId
         }
     }
 
     fun switchSession(sessionId: String) {
+        if (selectedSessionId.value == sessionId) {
+            return
+        }
+
         selectedSessionId.value = sessionId
     }
 

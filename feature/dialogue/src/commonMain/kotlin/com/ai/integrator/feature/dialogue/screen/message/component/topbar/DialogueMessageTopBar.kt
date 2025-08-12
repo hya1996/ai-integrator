@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.NoteAdd
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material3.HorizontalDivider
@@ -32,8 +34,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun DialogueMessageTopBar(
     title: String,
     subtitle: String = "",
-    onBackClick: () -> Unit = {},
-    onSessionClick: () -> Unit = {},
+    onBackClick: () -> Unit,
+    onSessionRecordClick: () -> Unit,
+    onAddSessionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -46,7 +49,8 @@ fun DialogueMessageTopBar(
     ) {
         DialogueMessageOperationBar(
             onBackClick = onBackClick,
-            onSessionClick = onSessionClick,
+            onSessionRecordClick = onSessionRecordClick,
+            onAddSessionClick = onAddSessionClick,
             modifier = Modifier.align(Alignment.CenterStart)
         )
         Column(
@@ -82,8 +86,9 @@ fun DialogueMessageTopBar(
 
 @Composable
 fun DialogueMessageOperationBar(
-    onBackClick: () -> Unit = {},
-    onSessionClick: () -> Unit = {},
+    onBackClick: () -> Unit,
+    onSessionRecordClick: () -> Unit,
+    onAddSessionClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -112,7 +117,21 @@ fun DialogueMessageOperationBar(
                 .width(24.dp)
                 .fillMaxHeight()
                 .clickable(
-                    onClick = onSessionClick,
+                    onClick = onSessionRecordClick,
+                    indication = null,
+                    interactionSource = null,
+                )
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Image(
+            imageVector = Icons.AutoMirrored.Outlined.NoteAdd,
+            contentDescription = null,
+            modifier = Modifier
+                .padding(end = 12.dp)
+                .width(24.dp)
+                .fillMaxHeight()
+                .clickable(
+                    onClick = onAddSessionClick,
                     indication = null,
                     interactionSource = null,
                 )
@@ -127,6 +146,9 @@ fun DialogueMessageTopBarPreview() {
         DialogueMessageTopBar(
             title = "DeepSeek",
             subtitle = "DeepSeek-R1-Distill-Llama-8B",
+            onBackClick = {},
+            onSessionRecordClick = {},
+            onAddSessionClick = {}
         )
     }
 }

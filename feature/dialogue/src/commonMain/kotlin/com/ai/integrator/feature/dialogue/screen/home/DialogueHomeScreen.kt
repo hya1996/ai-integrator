@@ -36,6 +36,11 @@ fun DialogueHomeScreen(
             ) {
                 DialogueSessionScreen(
                     modelId = modelId,
+                    onSessionRecordItemClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                    },
                     viewModel = viewModel
                 )
             }
@@ -46,10 +51,13 @@ fun DialogueHomeScreen(
         DialogueMessageScreen(
             modelId = modelId,
             onBackClick = onBackClick,
-            onSessionClick = {
+            onSessionRecordClick = {
                 scope.launch {
                     drawerState.open()
                 }
+            },
+            onAddSessionClick = {
+                viewModel.createNewSession()
             },
             viewModel = viewModel
         )

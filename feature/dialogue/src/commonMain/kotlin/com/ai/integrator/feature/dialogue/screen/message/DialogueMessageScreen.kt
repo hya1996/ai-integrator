@@ -28,7 +28,8 @@ import kotlinx.coroutines.launch
 fun DialogueMessageScreen(
     modelId: Long,
     onBackClick: () -> Unit,
-    onSessionClick: () -> Unit,
+    onSessionRecordClick: () -> Unit,
+    onAddSessionClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DialogueMessageViewModel // todo temp use opt later
 ) {
@@ -61,7 +62,8 @@ fun DialogueMessageScreen(
                     title = modelInfo?.simpleName ?: "",
                     subtitle = modelInfo?.intro ?: "",
                     onBackClick = onBackClick,
-                    onSessionClick = onSessionClick
+                    onSessionRecordClick = onSessionRecordClick,
+                    onAddSessionClick = onAddSessionClick
                 )
                 DialogueMessageList(
                     messages = messages,

@@ -23,6 +23,7 @@ import com.ai.integrator.user.uid.myUid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
@@ -52,14 +53,15 @@ class DialogueMessageViewModel(
         .map { it.map { msg -> msg as DialogueMessage } }
         .asState(viewModelScope, emptyList())
 
-    val sessionDataList: StateFlow<List<DialogueSessionItemData>> = sessionController.sessions
-        .map { sessionMap ->
-            sessionMap.map { (sessionId, session) ->
-                val lastMessage = dialogueMessageRepo.getLastDialogueMessageSentByMe(sessionId)
-                session.toDialogueSessionItemData(lastMessage)
-            }
+    val sessionDataList: StateFlow<List<DialogueSessionItemData>> = combine(
+        sessionController.sessions,
+        sessionController.curSession
+    ) { sessionMap, curSession ->
+        sessionMap.map { (sessionId, session) ->
+            val lastMessage = dialogueMessageRepo.getLastDialogueMessageSentByMe(sessionId)
+            session.toDialogueSessionItemData(lastMessage, curSession?.sessionId ?: "")
         }
-        .asState(viewModelScope, emptyList())
+    }.asState(viewModelScope, emptyList())
 
     init {
         initModelInfo()
@@ -91,6 +93,14 @@ class DialogueMessageViewModel(
         )
         clearInputContent()
         IMCenter.dispatchMessages(DialogueMessageHandler.Key, sessionController.curMessages.value + sendMsg)
+    }
+
+    fun createNewSession() {
+        sessionController.createSession()
+    }
+
+    fun switchSession(sessionId: String) {
+        sessionController.switchSession(sessionId)
     }
 
     override fun onCleared() {

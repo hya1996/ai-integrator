@@ -17,6 +17,7 @@ import kotlin.time.ExperimentalTime
 @Composable
 fun DialogueSessionScreen(
     modelId: Long,
+    onSessionRecordItemClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DialogueMessageViewModel // todo temp use opt later
 ) {
@@ -29,6 +30,12 @@ fun DialogueSessionScreen(
             .fillMaxHeight()
     ) {
         DialogueSessionTopBar()
-        DialogueSessionList(sessionDataList)
+        DialogueSessionList(
+            dataList = sessionDataList,
+            onItemClick = {
+                viewModel.switchSession(it)
+                onSessionRecordItemClick()
+            }
+        )
     }
 }
