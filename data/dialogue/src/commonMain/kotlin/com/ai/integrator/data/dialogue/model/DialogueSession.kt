@@ -10,5 +10,5 @@ import kotlin.time.ExperimentalTime
 data class DialogueSession(
     override val sessionId: String,
     override val participants: List<IMIdentity>,
-    override var lastActiveTime: Long = Clock.System.now().toEpochMilliseconds(),
+    override var lastActiveTs: Long = Clock.System.now().toEpochMilliseconds(),
 ) : IMSession

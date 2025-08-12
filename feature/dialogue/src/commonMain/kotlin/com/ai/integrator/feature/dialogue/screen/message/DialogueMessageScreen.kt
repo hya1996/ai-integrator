@@ -23,8 +23,6 @@ import com.ai.integrator.feature.dialogue.screen.message.component.bottombar.Dia
 import com.ai.integrator.feature.dialogue.screen.message.component.messagelist.DialogueMessageList
 import com.ai.integrator.feature.dialogue.screen.message.component.topbar.DialogueMessageTopBar
 import kotlinx.coroutines.launch
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DialogueMessageScreen(
@@ -32,7 +30,7 @@ fun DialogueMessageScreen(
     onBackClick: () -> Unit,
     onSessionClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DialogueMessageViewModel = koinViewModel { parametersOf(modelId) }
+    viewModel: DialogueMessageViewModel // todo temp use opt later
 ) {
     val localFocusManger = LocalFocusManager.current
 

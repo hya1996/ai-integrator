@@ -4,8 +4,9 @@ import com.ai.integrator.data.dialogue.database.DialogueDatabase
 import com.ai.integrator.data.dialogue.database.dao.DialogueMessageDao
 import com.ai.integrator.data.dialogue.database.dao.DialogueSessionDao
 import com.ai.integrator.data.dialogue.database.getRoomDatabase
-import com.ai.integrator.data.dialogue.datasource.DialogueDetailRemoteDataSource
-import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
+import com.ai.integrator.data.dialogue.datasource.DialogueMessageRemoteDataSource
+import com.ai.integrator.data.dialogue.repository.DialogueMessageRepository
+import com.ai.integrator.data.dialogue.repository.DialogueSessionRepository
 import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
 import com.ai.integrator.data.dialogue.session.DialogueSessionController
 import kotlinx.coroutines.CoroutineScope
@@ -21,9 +22,10 @@ val dialogueDataDIModule = module {
     single<DialogueDatabase> { getRoomDatabase(get()) }
     single<DialogueMessageDao> { get<DialogueDatabase>().dialogueMessageDao() }
     single<DialogueSessionDao> { get<DialogueDatabase>().dialogueSessionDao() }
-    singleOf(::DialogueDetailRemoteDataSource)
-    singleOf(::DialogueDetailRepository)
+    singleOf(::DialogueMessageRemoteDataSource)
+    singleOf(::DialogueMessageRepository)
+    singleOf(::DialogueSessionRepository)
 
-    factory { params -> DialogueSessionController(params.get<Long>(), get()) }
+    factory { params -> DialogueSessionController(params.get<Long>(), get(), get()) }
     factory { params -> DialogueMessageHandler(params.get<CoroutineScope>(), get()) }
 }

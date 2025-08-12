@@ -4,17 +4,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ai.integrator.feature.dialogue.screen.message.DialogueMessageViewModel
 import com.ai.integrator.feature.dialogue.screen.session.component.sessionlist.DialogueSessionList
-import com.ai.integrator.feature.dialogue.screen.session.component.sessionlist.item.DialogueSessionItemData
 import com.ai.integrator.feature.dialogue.screen.session.component.topbar.DialogueSessionTopBar
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun DialogueSessionScreen(
     modelId: Long,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: DialogueMessageViewModel // todo temp use opt later
 ) {
+    val sessionDataList by viewModel.sessionDataList.collectAsStateWithLifecycle()
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -22,9 +29,6 @@ fun DialogueSessionScreen(
             .fillMaxHeight()
     ) {
         DialogueSessionTopBar()
-        DialogueSessionList(listOf( // todo delete
-            DialogueSessionItemData("test1", 1000L),
-            DialogueSessionItemData("非常长非常长非常长非常长非常长非常长非常长的标题", 1000L)
-        ))
+        DialogueSessionList(sessionDataList)
     }
 }

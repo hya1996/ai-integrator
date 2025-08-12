@@ -11,14 +11,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import com.ai.integrator.feature.dialogue.screen.message.DialogueMessageScreen
+import com.ai.integrator.feature.dialogue.screen.message.DialogueMessageViewModel
 import com.ai.integrator.feature.dialogue.screen.session.DialogueSessionScreen
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DialogueHomeScreen(
     modelId: Long,
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: DialogueMessageViewModel = koinViewModel { parametersOf(modelId) } // todo temp use delete later
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -31,7 +35,8 @@ fun DialogueHomeScreen(
                 drawerContainerColor = colorScheme.primaryContainer
             ) {
                 DialogueSessionScreen(
-                    modelId = modelId
+                    modelId = modelId,
+                    viewModel = viewModel
                 )
             }
         },
@@ -45,7 +50,8 @@ fun DialogueHomeScreen(
                 scope.launch {
                     drawerState.open()
                 }
-            }
+            },
+            viewModel = viewModel
         )
     }
 }

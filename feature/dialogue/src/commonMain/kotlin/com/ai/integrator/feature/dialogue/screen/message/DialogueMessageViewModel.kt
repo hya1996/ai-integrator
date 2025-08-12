@@ -8,10 +8,13 @@ import com.ai.integrator.core.framework.viewmodel.BaseViewModel
 import com.ai.integrator.data.dialogue.model.DIALOGUE_ROLE_USER
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
+import com.ai.integrator.data.dialogue.repository.DialogueMessageRepository
 import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
 import com.ai.integrator.data.dialogue.session.DialogueSessionController
 import com.ai.integrator.data.platform.model.PlatformModelInfo
 import com.ai.integrator.data.platform.repository.PlatformModelRepository
+import com.ai.integrator.feature.dialogue.screen.session.component.sessionlist.item.DialogueSessionItemData
+import com.ai.integrator.feature.dialogue.screen.session.component.sessionlist.item.toDialogueSessionItemData
 import com.ai.integrator.im.IMCenter
 import com.ai.integrator.im.identity.IMIdentity
 import com.ai.integrator.im.identity.IdentityType
@@ -31,7 +34,8 @@ import kotlin.uuid.Uuid
 
 class DialogueMessageViewModel(
     private val modelId: Long,
-    private val platformModelRepo: PlatformModelRepository
+    private val platformModelRepo: PlatformModelRepository,
+    private val dialogueMessageRepo: DialogueMessageRepository
 ) : BaseViewModel() {
     private val _inputContent = MutableStateFlow("")
     val inputContent = _inputContent.asStateFlow()
@@ -45,7 +49,16 @@ class DialogueMessageViewModel(
 
     private val sessionController = KoinPlatform.getKoin().get<DialogueSessionController> { parametersOf(modelId) }
     val messages: StateFlow<List<DialogueMessage>> = sessionController.curMessages
-        .map { it.map { msg -> msg as DialogueMessage }.reversed() }
+        .map { it.map { msg -> msg as DialogueMessage } }
+        .asState(viewModelScope, emptyList())
+
+    val sessionDataList: StateFlow<List<DialogueSessionItemData>> = sessionController.sessions
+        .map { sessionMap ->
+            sessionMap.map { (sessionId, session) ->
+                val lastMessage = dialogueMessageRepo.getLastDialogueMessageSentByMe(sessionId)
+                session.toDialogueSessionItemData(lastMessage)
+            }
+        }
         .asState(viewModelScope, emptyList())
 
     init {

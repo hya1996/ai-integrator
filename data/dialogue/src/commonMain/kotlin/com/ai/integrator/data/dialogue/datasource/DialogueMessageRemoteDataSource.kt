@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-interface DialogueDetailServiceApi {
+interface DialogueMessageServiceApi {
     @POST("chat/completions")
     @Streaming
     suspend fun reqDialogueReply(
@@ -32,9 +32,9 @@ interface DialogueDetailServiceApi {
     ): HttpStatement
 }
 
-class DialogueDetailRemoteDataSource {
+class DialogueMessageRemoteDataSource {
     private val serviceApi by lazy {
-        HttpServiceManager.getHttpService(TAG).createDialogueDetailServiceApi()
+        HttpServiceManager.getHttpService(TAG).createDialogueMessageServiceApi()
     }
 
     fun reqDialogueReply(

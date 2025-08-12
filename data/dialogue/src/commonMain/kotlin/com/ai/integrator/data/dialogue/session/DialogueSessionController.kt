@@ -6,7 +6,8 @@ import com.ai.integrator.core.framework.flow.asState
 import com.ai.integrator.core.framework.log.Log
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueSession
-import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
+import com.ai.integrator.data.dialogue.repository.DialogueMessageRepository
+import com.ai.integrator.data.dialogue.repository.DialogueSessionRepository
 import com.ai.integrator.im.identity.IMIdentity
 import com.ai.integrator.im.identity.IdentityType
 import com.ai.integrator.im.message.HandlerKey
@@ -30,9 +31,10 @@ import kotlin.uuid.Uuid
 
 class DialogueSessionController(
     private val modelId: Long,
-    private val dialogueDetailRepo: DialogueDetailRepository
+    private val dialogueSessionRepo: DialogueSessionRepository,
+    private val dialogueMessageRepo: DialogueMessageRepository
 ) : IMSessionController<DialogueSession>(TAG) {
-    override val sessions: StateFlow<Map<String, DialogueSession>> = dialogueDetailRepo
+    override val sessions: StateFlow<Map<String, DialogueSession>> = dialogueSessionRepo
         .getDialogueSessionsByModelId(modelId)
         .map {
             if (it.isEmpty()) {
@@ -57,7 +59,7 @@ class DialogueSessionController(
     override val curMessages: StateFlow<List<IMMessage<*>>> = curSession
         .filterNotNull()
         .distinctUntilChangedBy { it.sessionId }
-        .flatMapLatest { dialogueDetailRepo.getDialogueMessagesBySessionId(it.sessionId) }
+        .flatMapLatest { dialogueMessageRepo.getDialogueMessagesBySessionId(it.sessionId) }
         .asState(sessionScope, emptyList())
 
     val curSessionId: String
@@ -79,8 +81,8 @@ class DialogueSessionController(
 
         sessionScope.launch {
             sessions.value[message.sessionId]?.let {
-                val updatedSession = it.copy(lastActiveTime = Clock.System.now().toEpochMilliseconds())
-                dialogueDetailRepo.upsertDialogueSession(updatedSession)
+                val updatedSession = it.copy(lastActiveTs = Clock.System.now().toEpochMilliseconds())
+                dialogueSessionRepo.upsertDialogueSession(updatedSession)
             }
         }
     }
@@ -94,7 +96,7 @@ class DialogueSessionController(
             )
         )
         sessionScope.launch {
-            dialogueDetailRepo.upsertDialogueSession(session)
+            dialogueSessionRepo.upsertDialogueSession(session)
         }
     }
 

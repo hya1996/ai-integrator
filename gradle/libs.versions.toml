@@ -4,6 +4,7 @@ kotlin = "2.2.0"
 kotlinCoroutines = "1.10.2"
 kotlinSerializtion = "2.0.21"
 kotlinSerializtionJson = "1.8.0"
+kotlinDatetime = "0.7.1"
 lifecycle = "2.9.1"
 composeMultiplatform = "1.8.2"
 composeMaterialIcon = "1.7.3"
@@ -26,6 +27,7 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name="kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-swing = { group = "org.jetbrains.kotlinx", name="kotlinx-coroutines-swing", version.ref = "kotlinCoroutines" }
 kotlin-serializtion-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializtionJson" }
+kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinDatetime" }
 
 # Lifecycle
 lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
@@ -107,6 +109,7 @@ common-base = [
     "kotlin-stdlib",
     "kotlin-coroutines-core",
     "kotlin-serializtion-json",
+    "kotlin-datetime",
 
     "koin-core"
 ]

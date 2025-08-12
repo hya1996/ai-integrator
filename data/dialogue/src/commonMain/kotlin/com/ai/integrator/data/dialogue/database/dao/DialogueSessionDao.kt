@@ -8,11 +8,20 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DialogueSessionDao {
-    @Query(value = "SELECT * FROM dialogue_session ORDER BY last_active_time DESC")
-    fun getDialogueSessions(): Flow<List<DialogueSessionEntity>>
+    @Query(value = """
+        SELECT * FROM dialogue_session
+        WHERE model_id = :modelId
+        ORDER BY last_active_ts DESC
+    """)
+    fun getDialogueSessions(modelId: Long): Flow<List<DialogueSessionEntity>>
 
-    @Query(value = "SELECT * FROM dialogue_session ORDER BY last_active_time DESC LIMIT 1")
-    suspend fun getLatestDialogueSession(): DialogueSessionEntity?
+    @Query(value = """
+        SELECT * FROM dialogue_session 
+        WHERE model_id = :modelId
+        ORDER BY last_active_ts DESC 
+        LIMIT 1
+    """)
+    suspend fun getLatestDialogueSession(modelId: Long): DialogueSessionEntity?
 
     @Upsert
     suspend fun upsertDialogueSession(session: DialogueSessionEntity)

@@ -11,7 +11,7 @@ import com.ai.integrator.core.framework.log.Log
 import com.ai.integrator.data.dialogue.model.DIALOGUE_ROLE_ASSISTANT
 import com.ai.integrator.data.dialogue.model.DialogueMessage
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
-import com.ai.integrator.data.dialogue.repository.DialogueDetailRepository
+import com.ai.integrator.data.dialogue.repository.DialogueMessageRepository
 import com.ai.integrator.im.identity.IdentityType
 import com.ai.integrator.im.message.HandlerKey
 import com.ai.integrator.im.message.IMMessage
@@ -27,7 +27,7 @@ private const val TAG = "DialogueMessageHandler"
 
 class DialogueMessageHandler(
     private val scope: CoroutineScope,
-    private val dialogueDetailRepo: DialogueDetailRepository
+    private val dialogueMessageRepo: DialogueMessageRepository
 ) : IMMessageHandler {
     object Key : HandlerKey<DialogueMessageHandler>
 
@@ -53,7 +53,7 @@ class DialogueMessageHandler(
         }
 
         val lastMsg = messages.last()
-        dialogueDetailRepo.upsertDialogueMessage(lastMsg)
+        dialogueMessageRepo.upsertDialogueMessage(lastMsg)
 
         val receiver = lastMsg.receiver
         if (receiver.type != IdentityType.AI) {
@@ -71,14 +71,14 @@ class DialogueMessageHandler(
             timestamp = Clock.System.now().toEpochMilliseconds(),
             status = MessageStatus.NO_STATUS
         )
-        dialogueDetailRepo.reqDialogueReply(
+        dialogueMessageRepo.reqDialogueReply(
             modelId = receiver.id,
             messages = messages.map { it.content }
         ).collectIn(scope) {
             it.onSuccess { content ->
                 replyContent = replyContent.copy(text = replyContent.text + content)
                 replyMsg = replyMsg.copy(content = replyContent)
-                dialogueDetailRepo.upsertDialogueMessage(replyMsg)
+                dialogueMessageRepo.upsertDialogueMessage(replyMsg)
             }.onFailure { code, message ->
                 Log.e(TAG, "handleDialogueMessages fail code: $code, message: $message")
             }
