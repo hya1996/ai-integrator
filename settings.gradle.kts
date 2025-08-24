@@ -24,10 +24,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "ai-integrator"
 
-include(":platform:androidApp")
-include(":platform:desktopApp")
+include(":app:androidApp")
+include(":app:desktopApp")
 
-include(":app")
+include(":shared")
 
 include(":core:framework")
 include(":core:datastore")

@@ -1,7 +1,7 @@
 package convention.ext
 
-import com.android.build.api.dsl.androidLibrary
 import Configs
+import com.android.build.api.dsl.androidLibrary
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -13,7 +13,7 @@ fun KotlinMultiplatformExtension.configureMultiplatform() {
 
         compilations.configureEach {
             compilerOptions.configure {
-                jvmTarget.set(JvmTarget.JVM_17)
+                jvmTarget.set(JvmTarget.JVM_21)
             }
         }
 
@@ -26,7 +26,7 @@ fun KotlinMultiplatformExtension.configureMultiplatform() {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ai-integrator"
+            baseName = "shared"
             isStatic = true
         }
     }
