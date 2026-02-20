@@ -8,29 +8,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val defaultLightColorScheme = lightColorScheme(
-    primary = Color(0xFF000000), // txt1
-    primaryContainer = Color(0xFFFFFFFF), // bg1
-    onPrimaryContainer = Color(0xFFEAEAEA), // bg1_prs
-    secondary = Color(0xB3000000), // txt2
-    secondaryContainer = Color(0xFFFFFFFF), // bg4
-    onSecondaryContainer = Color(0xFFEAEAEA), // bg4_prs
-    tertiary = Color(0x6B000000), // txt3
-    tertiaryContainer = Color(0x0A000000), // bg3
-    background = Color(0xFFF6F6F6), // bg2
-    outline = Color(0x14000000), // line1
+    primary = Color(0xFF1A1A1A),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFF5F5F5),
+    onPrimaryContainer = Color(0xFF0A0A0A),
+    secondary = Color(0xFF4A4A4A),
+    onSecondary = Color(0xFFFFFFFF),
+    secondaryContainer = Color(0xFFE8E8E8),
+    onSecondaryContainer = Color(0xFF1A1A1A),
+    tertiary = Color(0xFF6A6A6A),
+    onTertiary = Color(0xFFFFFFFF),
+    tertiaryContainer = Color(0xFFEEEEEE),
+    onTertiaryContainer = Color(0xFF2A2A2A),
+    background = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF0A0A0A),
+    outline = Color(0xFFD4D4D4),
 )
 
 val defaultDarkColorScheme = darkColorScheme(
-    primary = Color(0xE6FFFFFF),
-    primaryContainer = Color(0xFF18181D),
-    onPrimaryContainer = Color(0xFF383842),
-    secondary = Color(0xBDEDF3FF),
-    secondaryContainer = Color(0xFF292930),
-    onSecondaryContainer = Color(0xFF40404C),
-    tertiary = Color(0x75EDF3FF),
-    tertiaryContainer = Color(0x14EDF3FF),
-    background = Color(0xFF0C0C0E),
-    outline = Color(0x1Affffff),
+    primary = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFF0A0A0A),
+    primaryContainer = Color(0xFF2A2A2A),
+    onPrimaryContainer = Color(0xFFFAFAFA),
+    secondary = Color(0xFFD4D4D4),
+    onSecondary = Color(0xFF0A0A0A),
+    secondaryContainer = Color(0xFF3A3A3A),
+    onSecondaryContainer = Color(0xFFE8E8E8),
+    tertiary = Color(0xFFA8A8A8),
+    onTertiary = Color(0xFF0A0A0A),
+    tertiaryContainer = Color(0xFF4A4A4A),
+    onTertiaryContainer = Color(0xFFD4D4D4),
+    background = Color(0xFF0A0A0A),
+    onBackground = Color(0xFFFAFAFA),
+    outline = Color(0xFF3A3A3A),
 )
 
 @Composable
