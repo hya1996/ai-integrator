@@ -15,14 +15,14 @@ kotlin {
 android {
     namespace = "com.ai.integrator"
 
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ai.integrator"
         versionCode = 1
         versionName = "1.0.0"
 
-        targetSdk = 35
+        targetSdk = 36
         minSdk = 24
 
         compileOptions {
@@ -63,5 +63,5 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.compose.activity)
 
-    implementation(project(":shared"))
+    implementation(projects.shared)
 }

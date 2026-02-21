@@ -9,7 +9,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Modules.Data.platform))
+            implementation(projects.data.platform)
         }
     }
 }

@@ -24,7 +24,7 @@ class KMPLibraryConventionPlugin : Plugin<Project> {
                     implementation(project.dependencies.platform(libs.findLibrary("koin-bom").get()))
                     implementation(libs.findBundle("common-base").get())
 
-                    implementation(project(Modules.Core.framework))
+                    implementation(project(":core:framework"))
                 }
             }
         }

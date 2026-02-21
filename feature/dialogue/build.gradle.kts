@@ -9,10 +9,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Modules.Core.user))
+            implementation(projects.core.user)
 
-            implementation(project(Modules.Data.platform))
-            implementation(project(Modules.Data.dialogue))
+            implementation(projects.data.platform)
+            implementation(projects.data.dialogue)
         }
     }
 }

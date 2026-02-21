@@ -26,7 +26,7 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.kotlin.coroutines.swing)
 
-            implementation(project(":shared"))
+            implementation(projects.shared)
         }
 
         desktopMain.dependencies {
@@ -50,7 +50,7 @@ compose.desktop {
 android {
     namespace = "com.ai.integrator"
 
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24

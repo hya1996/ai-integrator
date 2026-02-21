@@ -11,7 +11,7 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.room.runtime)
 
-            implementation(project(Modules.Core.user))
+            implementation(projects.core.user)
         }
     }
 }

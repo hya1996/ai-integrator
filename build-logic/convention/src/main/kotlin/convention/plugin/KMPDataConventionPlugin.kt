@@ -1,6 +1,5 @@
 package convention.plugin
 
-import Modules
 import convention.ext.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,7 +17,7 @@ class KMPDataConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinMultiplatformExtension> {
                 sourceSets.commonMain.dependencies {
                     implementation(libs.findLibrary("ktorfit-lib").get())
-                    implementation(project(Modules.Core.network))
+                    implementation(project(":core:network"))
                 }
             }
         }

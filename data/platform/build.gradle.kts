@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.convention.kmp.data)
+    alias(libs.plugins.convention.kmp.room)
 }
 
 kotlin {
@@ -9,7 +10,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Modules.Core.datastore))
+            implementation(projects.core.datastore)
         }
     }
 }

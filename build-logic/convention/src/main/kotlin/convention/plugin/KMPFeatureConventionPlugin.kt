@@ -1,6 +1,5 @@
 package convention.plugin
 
-import Modules
 import convention.ext.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -20,7 +19,7 @@ class KMPFeatureConventionPlugin : Plugin<Project> {
                     implementation(libs.findLibrary("coil-compose").get())
                     implementation(libs.findLibrary("coil-network-ktor").get())
 
-                    implementation(project(Modules.Core.ui))
+                    implementation(project(":core:ui"))
                 }
             }
         }

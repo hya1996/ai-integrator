@@ -10,11 +10,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Modules.Core.datastore))
-            implementation(project(Modules.Core.ui))
+            implementation(projects.core.datastore)
+            implementation(projects.core.ui)
 
-            implementation(project(Modules.Feature.platform))
-            implementation(project(Modules.Feature.dialogue))
+            implementation(projects.feature.platform)
+            implementation(projects.feature.dialogue)
         }
     }
 }
