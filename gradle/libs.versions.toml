@@ -12,7 +12,6 @@ androidTools = "32.0.1"
 ksp = "2.3.4"
 kermit = "2.0.8"
 coil = "3.3.0"
-ktorfit = "2.7.2"
 ktor = "3.4.0"
 datastore = "1.2.0"
 room = "2.8.4"
@@ -52,10 +51,8 @@ paging-compose = { group = "androidx.paging", name = "paging-compose", version.r
 kermit = { group = "co.touchlab", name = "kermit", version.ref = "kermit" }
 
 # Network
-ktorfit-lib = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-lib", version.ref = "ktorfit" }
-ktorfit-converters-call = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-call", version.ref = "ktorfit" }
-ktorfit-converters-response = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-response", version.ref = "ktorfit" }
-ktorfit-converters-flow = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-flow", version.ref = "ktorfit" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
@@ -100,7 +97,6 @@ compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 room = { id = "androidx.room", version.ref = "room" }
-ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 
 # Plugins defined by this project
 convention-kmp-framework = { id = "convention.kmp.framework", version = "unspecified" }

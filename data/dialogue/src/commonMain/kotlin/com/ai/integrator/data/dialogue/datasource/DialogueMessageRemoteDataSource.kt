@@ -7,54 +7,50 @@ import com.ai.integrator.core.framework.serialization.json.JsonHelper
 import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyReq
 import com.ai.integrator.data.dialogue.protocol.DialogueReplyResp
+import com.ai.integrator.data.model.model.ModelInfo
 import com.ai.integrator.network.HttpServiceManager
-import de.jensklingenberg.ktorfit.http.Body
-import de.jensklingenberg.ktorfit.http.POST
-import de.jensklingenberg.ktorfit.http.Streaming
-import io.ktor.client.call.body
-import io.ktor.client.statement.HttpStatement
-import io.ktor.utils.io.ByteReadChannel
+import io.ktor.client.request.header
+import io.ktor.client.request.preparePost
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.HttpHeaders
 import io.ktor.utils.io.exhausted
 import io.ktor.utils.io.readUTF8Line
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
-interface DialogueMessageServiceApi {
-    @POST("chat/completions")
-    @Streaming
-    suspend fun reqDialogueReply(
-        @Body reqBody: DialogueReplyReq
-    ): HttpStatement
-}
-
 class DialogueMessageRemoteDataSource {
-    private val serviceApi by lazy {
-        HttpServiceManager.getHttpService(TAG).createDialogueMessageServiceApi()
+    private val httpClient by lazy {
+        HttpServiceManager.buildHttpClient(TAG)
     }
 
     fun reqDialogueReply(
-        modelName: String,
+        modelInfo: ModelInfo?,
         messages: List<DialogueMessageContent>
     ): Flow<ResultOrIntError<String>> {
-        if (modelName.isEmpty()) {
-            return flowOf(ResultOrIntError.Failure(ERROR_CODE_MODEL_ARG_INVALID, "model name is invalid"))
+        if (modelInfo == null) {
+            return flowOf(ResultOrIntError.Failure(ERROR_CODE_MODEL_ARG_INVALID, "model info is invalid"))
         }
 
-        val reqBody = DialogueReplyReq(
-            model = modelName,
-            messages = messages
-        )
-        return flow {
+        return channelFlow {
             // todo add fail handle
-            serviceApi.reqDialogueReply(reqBody).execute { res ->
-                val channel: ByteReadChannel = res.body()
+            httpClient.preparePost(modelInfo.requestUrl) {
+                header(HttpHeaders.Authorization, modelInfo.apiKey)
+                setBody(
+                    DialogueReplyReq(
+                        model = modelInfo.modelName,
+                        messages = messages
+                    )
+                )
+            }.execute { resp ->
+                val channel = resp.bodyAsChannel()
                 while (!channel.exhausted()) {
-                    emit(channel.readUTF8Line())
+                    send(channel.readUTF8Line())
                 }
             }
         }

@@ -11,12 +11,11 @@ class KMPDataConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("convention.kmp.library")
-                apply("de.jensklingenberg.ktorfit")
             }
 
             extensions.configure<KotlinMultiplatformExtension> {
                 sourceSets.commonMain.dependencies {
-                    implementation(libs.findLibrary("ktorfit-lib").get())
+                    implementation(libs.findLibrary("ktor-client-core").get())
                     implementation(libs.findLibrary("paging-common").get())
                     implementation(project(":core:network"))
                 }

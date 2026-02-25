@@ -33,7 +33,7 @@ class DialogueMessageRepository(
         modelId: Long,
         messages: List<DialogueMessageContent>
     ): Flow<ResultOrIntError<String>> {
-        val modelName = modelRepo.getModelInfo(modelId)?.modelName ?: ""
-        return dialogueMessageRemoteDS.reqDialogueReply(modelName, messages)
+        val modelInfo = modelRepo.getModelInfo(modelId)
+        return dialogueMessageRemoteDS.reqDialogueReply(modelInfo, messages)
     }
 }
