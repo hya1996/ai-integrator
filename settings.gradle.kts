@@ -36,10 +36,10 @@ include(":core:ui")
 include(":core:user")
 include(":core:im")
 
-include(":data:platform")
+include(":data:model")
 include(":data:dialogue")
 
-include(":feature:platform")
+include(":feature:model")
 include(":feature:dialogue")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

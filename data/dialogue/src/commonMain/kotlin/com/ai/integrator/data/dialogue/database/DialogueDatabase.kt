@@ -36,7 +36,7 @@ expect object DialogueDatabaseConstructor : RoomDatabaseConstructor<DialogueData
     override fun initialize(): DialogueDatabase
 }
 
-fun getRoomDatabase(
+fun getDialogueDatabase(
     builder: RoomDatabase.Builder<DialogueDatabase>
 ): DialogueDatabase {
     return builder

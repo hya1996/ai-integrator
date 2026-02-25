@@ -19,6 +19,7 @@ class KMPRoomConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinMultiplatformExtension> {
                 sourceSets.commonMain.dependencies {
                     implementation(libs.findLibrary("room-runtime").get())
+                    implementation(libs.findLibrary("room-paging").get())
                     implementation(libs.findLibrary("sqlite-bundled").get())
                 }
             }
@@ -30,7 +31,6 @@ class KMPRoomConventionPlugin : Plugin<Project> {
             dependencies {
                 val roomCompilerLib = libs.findLibrary("room-compiler").get()
                 add("kspAndroid", roomCompilerLib)
-                add("kspIosX64", roomCompilerLib)
                 add("kspIosArm64", roomCompilerLib)
                 add("kspIosSimulatorArm64", roomCompilerLib)
                 add("kspDesktop", roomCompilerLib)

@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ai.integrator.data.dialogue.database.DialogueDatabase
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 internal actual val platformDIModule = module {
-    single<RoomDatabase.Builder<DialogueDatabase>> {
+    single<RoomDatabase.Builder<DialogueDatabase>>(named("dialogue_db_builder")) {
         getDialogueDatabaseBuilder(get())
     }
 }

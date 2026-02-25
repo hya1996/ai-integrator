@@ -17,7 +17,12 @@ class KMPDataConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinMultiplatformExtension> {
                 sourceSets.commonMain.dependencies {
                     implementation(libs.findLibrary("ktorfit-lib").get())
+                    implementation(libs.findLibrary("paging-common").get())
                     implementation(project(":core:network"))
+                }
+
+                sourceSets.androidMain.dependencies {
+                    implementation(libs.findLibrary("paging-runtime").get())
                 }
             }
         }

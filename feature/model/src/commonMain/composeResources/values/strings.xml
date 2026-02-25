@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="model_feature_model_home_title">AI模型</string>
+    <string name="model_feature_add_model_title">添加模型</string>
+    <string name="model_feature_add_model_model_name_title">模型名称</string>
+    <string name="model_feature_add_model_request_url_title">请求链接</string>
+    <string name="model_feature_add_model_api_key_title">API Key</string>
+    <string name="model_feature_add_model_confirm">确认</string>
+    <string name="model_feature_add_model_cancel">取消</string>
+</resources>

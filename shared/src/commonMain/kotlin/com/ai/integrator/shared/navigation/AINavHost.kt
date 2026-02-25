@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.ai.integrator.feature.dialogue.navigation.PlatformModelRoute
+import com.ai.integrator.feature.model.navigation.ModelHomeRoute
 import com.ai.integrator.feature.dialogue.navigation.dialogueNavGraph
 import com.ai.integrator.feature.dialogue.navigation.navigateToDialogueHome
-import com.ai.integrator.feature.dialogue.navigation.platformNavGraph
+import com.ai.integrator.feature.model.navigation.modelNavGraph
 
 @Composable
 fun AINavHost(
@@ -18,12 +18,12 @@ fun AINavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = PlatformModelRoute,
+        startDestination = ModelHomeRoute,
         modifier = modifier,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
     ) {
-        platformNavGraph(
+        modelNavGraph(
             onModelItemClick = { modelId ->
                 navController.navigateToDialogueHome(modelId)
             }

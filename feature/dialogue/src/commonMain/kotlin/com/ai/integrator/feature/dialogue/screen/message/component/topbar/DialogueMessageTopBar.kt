@@ -3,9 +3,7 @@ package com.ai.integrator.feature.dialogue.screen.message.component.topbar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -25,15 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ai.integrator.core.ui.theme.AITheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DialogueMessageTopBar(
     title: String,
-    subtitle: String = "",
     onBackClick: () -> Unit,
     onSessionRecordClick: () -> Unit,
     onAddSessionClick: () -> Unit,
@@ -45,19 +42,25 @@ fun DialogueMessageTopBar(
             .height(55.dp)
             .background(
                 color = colorScheme.primaryContainer
-            ),
+            )
     ) {
-        DialogueMessageOperationBar(
-            onBackClick = onBackClick,
-            onSessionRecordClick = onSessionRecordClick,
-            onAddSessionClick = onAddSessionClick,
-            modifier = Modifier.align(Alignment.CenterStart)
-        )
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+        Row(
             modifier = modifier.align(Alignment.Center),
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Image(
+                imageVector = Icons.Rounded.ArrowBackIosNew,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(48.dp)
+                    .padding(12.dp)
+                    .fillMaxHeight()
+                    .clickable(
+                        onClick = onBackClick,
+                        indication = null,
+                        interactionSource = null,
+                    )
+            )
             Text(
                 text = title,
                 fontSize = 16.sp,
@@ -65,13 +68,33 @@ fun DialogueMessageTopBar(
                 color = colorScheme.primary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
             )
-            Text(
-                text = subtitle,
-                fontSize = 13.sp,
-                color = colorScheme.secondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+            Image(
+                imageVector = Icons.Rounded.History,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(48.dp)
+                    .padding(12.dp)
+                    .fillMaxHeight()
+                    .clickable(
+                        onClick = onSessionRecordClick,
+                        indication = null,
+                        interactionSource = null,
+                    )
+            )
+            Image(
+                imageVector = Icons.AutoMirrored.Outlined.NoteAdd,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(48.dp)
+                    .padding(12.dp)
+                    .fillMaxHeight()
+                    .clickable(
+                        onClick = onAddSessionClick,
+                        indication = null,
+                        interactionSource = null,
+                    )
             )
         }
         HorizontalDivider(
@@ -145,7 +168,6 @@ fun DialogueMessageTopBarPreview() {
     AITheme {
         DialogueMessageTopBar(
             title = "DeepSeek",
-            subtitle = "DeepSeek-R1-Distill-Llama-8B",
             onBackClick = {},
             onSessionRecordClick = {},
             onAddSessionClick = {}

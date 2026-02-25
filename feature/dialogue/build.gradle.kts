@@ -11,7 +11,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.user)
 
-            implementation(projects.data.platform)
+            implementation(projects.data.model)
             implementation(projects.data.dialogue)
         }
     }

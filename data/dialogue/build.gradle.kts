@@ -14,7 +14,7 @@ kotlin {
             implementation(projects.core.user)
             api(projects.core.im)
 
-            implementation(projects.data.platform)
+            implementation(projects.data.model)
         }
     }
 }

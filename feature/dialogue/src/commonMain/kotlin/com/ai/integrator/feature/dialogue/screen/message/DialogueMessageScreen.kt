@@ -59,8 +59,7 @@ fun DialogueMessageScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 DialogueMessageTopBar(
-                    title = modelInfo?.simpleName ?: "",
-                    subtitle = modelInfo?.intro ?: "",
+                    title = modelInfo?.modelName ?: "",
                     onBackClick = onBackClick,
                     onSessionRecordClick = onSessionRecordClick,
                     onAddSessionClick = onAddSessionClick

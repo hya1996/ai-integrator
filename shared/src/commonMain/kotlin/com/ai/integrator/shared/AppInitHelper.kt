@@ -2,7 +2,7 @@ package com.ai.integrator.shared
 
 import com.ai.integrator.core.datastore.DataStoreModule
 import com.ai.integrator.feature.dialogue.DialogueModule
-import com.ai.integrator.feature.dialogue.PlatformModule
+import com.ai.integrator.feature.model.ModelModule
 import org.koin.core.context.startKoin
 
 fun initKoinAndApp() {
@@ -16,6 +16,6 @@ fun initApp() {
 
 private fun initApplicationModules() {
     DataStoreModule().init()
-    PlatformModule().init()
+    ModelModule().init()
     DialogueModule().init()
 }

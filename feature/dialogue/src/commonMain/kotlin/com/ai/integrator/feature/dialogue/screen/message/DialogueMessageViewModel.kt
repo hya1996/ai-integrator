@@ -11,8 +11,8 @@ import com.ai.integrator.data.dialogue.model.DialogueMessageContent
 import com.ai.integrator.data.dialogue.repository.DialogueMessageRepository
 import com.ai.integrator.data.dialogue.session.DialogueMessageHandler
 import com.ai.integrator.data.dialogue.session.DialogueSessionController
-import com.ai.integrator.data.platform.model.PlatformModelInfo
-import com.ai.integrator.data.platform.repository.PlatformModelRepository
+import com.ai.integrator.data.model.model.ModelInfo
+import com.ai.integrator.data.model.repository.ModelRepository
 import com.ai.integrator.feature.dialogue.screen.session.component.sessionlist.item.DialogueSessionItemData
 import com.ai.integrator.feature.dialogue.screen.session.component.sessionlist.item.toDialogueSessionItemData
 import com.ai.integrator.im.IMCenter
@@ -35,7 +35,7 @@ import kotlin.uuid.Uuid
 
 class DialogueMessageViewModel(
     private val modelId: Long,
-    private val platformModelRepo: PlatformModelRepository,
+    private val modelRepo: ModelRepository,
     private val dialogueMessageRepo: DialogueMessageRepository
 ) : BaseViewModel() {
     private val _inputContent = MutableStateFlow("")
@@ -45,7 +45,7 @@ class DialogueMessageViewModel(
         .map { it.isNotEmpty() }
         .asState(viewModelScope, false)
 
-    private val _modelInfo = MutableStateFlow<PlatformModelInfo?>(null)
+    private val _modelInfo = MutableStateFlow<ModelInfo?>(null)
     val modelInfo = _modelInfo.asStateFlow()
 
     private val sessionController = KoinPlatform.getKoin().get<DialogueSessionController> { parametersOf(modelId) }
@@ -70,7 +70,7 @@ class DialogueMessageViewModel(
     }
 
     private fun initModelInfo() = viewModelScope.launch {
-        _modelInfo.value = platformModelRepo.getModelById(modelId)
+        _modelInfo.value = modelRepo.getModelInfo(modelId)
     }
 
     fun updateInputContent(content: String) {

@@ -18,8 +18,13 @@ class KMPFeatureConventionPlugin : Plugin<Project> {
                 sourceSets.commonMain.dependencies {
                     implementation(libs.findLibrary("coil-compose").get())
                     implementation(libs.findLibrary("coil-network-ktor").get())
-
+                    implementation(libs.findLibrary("paging-common").get())
+                    implementation(libs.findLibrary("paging-compose").get())
                     implementation(project(":core:ui"))
+                }
+
+                sourceSets.androidMain.dependencies {
+                    implementation(libs.findLibrary("paging-runtime").get())
                 }
             }
         }
