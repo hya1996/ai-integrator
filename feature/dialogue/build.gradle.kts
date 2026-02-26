@@ -9,8 +9,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core.user)
+            implementation(libs.bundles.markdown.renderer)
 
+            implementation(projects.core.user)
             implementation(projects.data.model)
             implementation(projects.data.dialogue)
         }
